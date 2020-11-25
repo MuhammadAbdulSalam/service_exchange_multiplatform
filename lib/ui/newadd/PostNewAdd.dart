@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +24,8 @@ class _PostNewAddState extends State<PostNewAdd> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   Position _currentPosition;
   String currentLocation;
+  Timer _timerDialog;
+
 
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
@@ -174,6 +179,29 @@ class _PostNewAddState extends State<PostNewAdd> {
     return null;
   }
 
+  void showTimedDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext builderContext) {
+          _timerDialog = Timer(Duration(seconds: 2), () {
+            Navigator.of(context).pop();
+          });
+
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text('Success'),
+            content: SingleChildScrollView(
+              child: Text('Post Uploaded Successfully'),
+            ),
+          );
+        }
+    ).then((val){
+      if (_timerDialog.isActive) {
+        _timerDialog.cancel();
+      }
+    });
+  }
+
   Future<void> _handlePostAdds(BuildContext context) async {
     Dialoge.showLoadingDialog(context, _keyLoader); //invoking progreebar
 
@@ -196,11 +224,14 @@ class _PostNewAddState extends State<PostNewAdd> {
         .set(postHashMap)
         .then((value) async {
       await FirebaseHelper.USER_DB
+          .child(FirebaseAuth.instance.currentUser.uid)
           .child("posts")
-          .child(postKey)
+          .child("id")
           .set(postKey)
           .then((value) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+        showTimedDialog();
 
         clearTextBoxes();
       }).catchError((onError) {
