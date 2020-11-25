@@ -3,8 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/flip_bar_item.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/flip_box_bar.dart';
 
 
 void main() async {
