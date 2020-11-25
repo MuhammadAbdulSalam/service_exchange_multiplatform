@@ -6,9 +6,9 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:service_exchange_multiplatform/ui/loginviews/LoginActivity.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/Dialoge.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/TemplateDialog.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/TemplateDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -251,7 +251,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     return Container(
-        color: Constants.THEME_DEFAULT_BACKGROUND,
+        color: Constants.THEME_DEFAULT_BLACK,
         child: SafeArea(
             child: Column(children: <Widget>[
           Container(
@@ -281,6 +281,7 @@ class _PostNewAddState extends State<PostNewAdd> {
           ),
           Expanded(
             child: Container(
+              color: Constants.getContainerColor(),
               child: Form(
                 key: _formKey,
                 child: ListView(
@@ -290,7 +291,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you need:",
                         style: TextStyle(
-                            color: Colors.white60, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -311,7 +312,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Current Location',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -333,7 +334,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Required Service',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -358,7 +359,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -367,7 +368,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you will provide in return:",
                         style: TextStyle(
-                            color: Colors.white60, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -388,7 +389,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Return Service',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -413,7 +414,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),

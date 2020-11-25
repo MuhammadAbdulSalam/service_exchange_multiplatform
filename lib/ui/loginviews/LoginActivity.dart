@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:service_exchange_multiplatform/ui/homepage/LandingActivity.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/Dialoge.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 
 import 'Register.dart';
 
