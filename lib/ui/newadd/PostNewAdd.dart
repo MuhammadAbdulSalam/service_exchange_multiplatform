@@ -82,15 +82,15 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     if (index == TOOLBAR_MAGIC_INDEX) {
-      final prefs = await SharedPreferences.getInstance();
-      String templateService =
-          await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
-      String templateDescription =
-          await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
 
-      if (templateDescription == "default" && templateService == "default") {
+      final prefs = await SharedPreferences.getInstance();
+      String templateService = await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
+      String templateDescription = await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
+
+      if ((templateDescription == "default" && templateService == "default") ||
+          (templateDescription == "" && templateService == "")) {
         showAlertDialog(context,
-            "You do not have a template stored. Would you like to save a template now? You can then use this tepmlate by pressing the magic wand icon");
+            "You do not have a template stored. Would you like to save a template now? You can then use this template by pressing the magic wand icon");
       } else {
         returnServiceController.text = templateService;
         returnDescriptionController.text = templateDescription;
