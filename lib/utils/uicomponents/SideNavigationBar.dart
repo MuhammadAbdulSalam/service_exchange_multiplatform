@@ -1,11 +1,6 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart';
-
-
 
 class SideNavigationBar extends StatefulWidget {
   @override
@@ -13,7 +8,6 @@ class SideNavigationBar extends StatefulWidget {
 }
 
 class _SideNavigationBar extends State<SideNavigationBar> {
-
   void setDark(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(Constants.COLOR_THEME, value);
@@ -39,26 +33,25 @@ class _SideNavigationBar extends State<SideNavigationBar> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
-                        Constants.DEFAULT_ORANGE,
-                        Constants.DEFAULT_BLUE,
-                      ])),
+                    Constants.DEFAULT_ORANGE,
+                    Constants.DEFAULT_BLUE,
+                  ])),
             ),
-
             Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
               Text(
                 "Dark Mode ",
                 style: TextStyle(
-                    color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
+                    color: Constants.THEME_LABEL_COLOR,
+                    fontWeight: FontWeight.bold),
               ),
               Switch(
                 value: Constants.IS_THEME_DARK,
                 onChanged: (value) {
                   setState(() {
-                    if(value == true){
+                    if (value == true) {
                       Constants.homeThemeDark();
                       Constants.IS_THEME_DARK = true;
-                    }
-                    else{
+                    } else {
                       Constants.homeThemeLight();
                       Constants.IS_THEME_DARK = false;
                     }
@@ -92,4 +85,3 @@ class _SideNavigationBar extends State<SideNavigationBar> {
     );
   }
 }
-
