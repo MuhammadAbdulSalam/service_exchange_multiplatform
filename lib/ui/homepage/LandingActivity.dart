@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:service_exchange_multiplatform/ui/homepage/PostsHomePage.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/CustomPagerPhysics.dart';
@@ -46,7 +46,6 @@ class _LandingActivity extends State<LandingActivity> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
   }

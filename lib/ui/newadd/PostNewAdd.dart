@@ -26,7 +26,6 @@ class _PostNewAddState extends State<PostNewAdd> {
   String currentLocation;
   Timer _timerDialog;
 
-
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
   final requestedDescriptionController = TextEditingController();
@@ -87,10 +86,11 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     if (index == TOOLBAR_MAGIC_INDEX) {
-
       final prefs = await SharedPreferences.getInstance();
-      String templateService = await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
-      String templateDescription = await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
+      String templateService =
+          await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
+      String templateDescription =
+          await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
 
       if ((templateDescription == "default" && templateService == "default") ||
           (templateDescription == "" && templateService == "")) {
@@ -101,6 +101,16 @@ class _PostNewAddState extends State<PostNewAdd> {
         returnDescriptionController.text = templateDescription;
       }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // currentLocationController.dispose();
+    // requestedServiceController.dispose();
+    // requestedDescriptionController.dispose();
+    // returnServiceController.dispose();
+    // returnDescriptionController.dispose();
   }
 
   /// Show alert dialog
@@ -179,7 +189,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     return null;
   }
 
-  void showTimedDialog(){
+  void showTimedDialog() {
     showDialog(
         context: context,
         builder: (BuildContext builderContext) {
@@ -194,8 +204,7 @@ class _PostNewAddState extends State<PostNewAdd> {
               child: Text('Post Uploaded Successfully'),
             ),
           );
-        }
-    ).then((val){
+        }).then((val) {
       if (_timerDialog.isActive) {
         _timerDialog.cancel();
       }
@@ -291,7 +300,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you need:",
                         style: TextStyle(
-                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -312,7 +322,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Current Location',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -334,7 +345,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Required Service',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -359,7 +371,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -368,7 +381,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you will provide in return:",
                         style: TextStyle(
-                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -389,7 +403,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Return Service',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -414,7 +429,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),

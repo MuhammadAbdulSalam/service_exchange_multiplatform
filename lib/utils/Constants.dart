@@ -67,6 +67,13 @@ class Constants {
 
   static const DEFAULT_BUTTON = Color(0xFF6dc1c3);
 
+
+  static int CURRENT_INDEX = 0;
+  static int HOME_INDEX = 0;
+  static int POSTS_INDEX = 1;
+  static int NEWADD_INDEX = 3;
+
+
 // iPhone 6S
 // |_ [portrait]
 //    |_ size: 375.0x667.0, pixelRatio: 2.0, pixels: 750.0x1334.0

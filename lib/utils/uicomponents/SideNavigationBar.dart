@@ -51,9 +51,11 @@ class _SideNavigationBar extends State<SideNavigationBar> {
                     if (value == true) {
                       Constants.homeThemeDark();
                       Constants.IS_THEME_DARK = true;
+                      setDark(true);
                     } else {
                       Constants.homeThemeLight();
                       Constants.IS_THEME_DARK = false;
+                      setDark(false);
                     }
                   });
                 },
