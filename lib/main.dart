@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/animation.dart';
+import 'package:service_exchange_multiplatform/ui/homepage/ControllerActivity.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => LandingActivity()),
+            MaterialPageRoute(builder: (context) => MainPage()),
             ModalRoute.withName("/Home"));
       }
       else{

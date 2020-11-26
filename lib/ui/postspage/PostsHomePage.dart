@@ -65,7 +65,7 @@ class _PostsHomePage extends State<PostsHomePage> {
               child: new Column(
             children: [
               new Container(
-                  height: MediaQuery.of(context).size.height - 130,
+                  height: MediaQuery.of(context).size.height - 200,
                   child: PostsItemList(isRe))
             ],
           )),
