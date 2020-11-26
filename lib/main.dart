@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => MainPage()),
+            MaterialPageRoute(builder: (context) => ControllerActivity()),
             ModalRoute.withName("/Home"));
       }
       else{
