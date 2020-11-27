@@ -3,6 +3,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum listType {
+  NEAR_ME,
+  MY_POSTS,
+  REFRESH,
+  FILER
+}
+
+
 class Constants {
   static const DEFAULT_BLUE = Color(0xFF6dc1c3);
   static const BLUE_SHADE_1 = Color(0xFF81E4E6);
@@ -81,6 +89,13 @@ class Constants {
   static int HOME_INDEX = 0;
   static int POSTS_INDEX = 1;
   static int NEWADD_INDEX = 3;
+
+  static int NEAR_ME = 0;
+  static int MY_POSTS = 0;
+  static int REFRESH = 1;
+  static int FILTER = 3;
+
+
 
 // iPhone 6S
 // |_ [portrait]
