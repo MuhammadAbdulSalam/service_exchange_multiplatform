@@ -229,7 +229,7 @@ class PostsItemList extends StatelessWidget {
                                           children: [
                                             Text(
                                               snapshot
-                                                  .data[index].requiredService,
+                                                  .data[index].userName,
                                               style: TextStyle(
                                                 color: Constants
                                                     .THEME_LABEL_COLOR,
@@ -240,7 +240,7 @@ class PostsItemList extends StatelessWidget {
                                             ),
                                             Text(
                                               snapshot.data[index]
-                                                  .requiredDescription,
+                                                  .returnService,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   color: Constants
@@ -365,7 +365,7 @@ class PostsItemList extends StatelessWidget {
                                                     0, 10, 10, 0),
                                                 child: Text(
                                                   snapshot.data[index]
-                                                      .returnDescription,
+                                                      .returnService,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       color: Constants
@@ -381,7 +381,7 @@ class PostsItemList extends StatelessWidget {
                                                 10, 5, 10, 10),
                                             child: Text(
                                               snapshot
-                                                  .data[index].returnService,
+                                                  .data[index].returnDescription,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   color: Constants

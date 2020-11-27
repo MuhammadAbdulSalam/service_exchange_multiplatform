@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -214,16 +215,21 @@ class _PostNewAddState extends State<PostNewAdd> {
   Future<void> _handlePostAdds(BuildContext context) async {
     Dialoge.showLoadingDialog(context, _keyLoader); //invoking progreebar
 
+    final prefs = await SharedPreferences.getInstance();
+
     final Map<String, String> postHashMap = {
       'postTitle': requestedServiceController.text,
-      'description': requestedServiceController.text,
+      'description': requestedDescriptionController.text,
       'returnService': returnServiceController.text,
       'returnDescription': returnDescriptionController.text,
       'latitude': _currentPosition.latitude.toString(),
       'longitude': _currentPosition.longitude.toString(),
       'offerStatus': "new",
       'dealMade': 'pending',
-      'dpUrl': "default"
+      'dpUrl': "default",
+      'userId': FirebaseAuth.instance.currentUser.uid.toString(),
+      'userName': prefs.get(Constants.USER_NAME)
+
     };
 
     String postKey = Uuid().v4();

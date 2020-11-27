@@ -26,6 +26,7 @@ class PostsModel {
   String requiredDescription;
   String returnService;
   String returnDescription;
+  String userName;
 
   PostsModel({
       this.userDpUrl,
@@ -35,19 +36,22 @@ class PostsModel {
       this.requiredService,
       this.requiredDescription,
       this.returnService,
-      this.returnDescription});
+      this.returnDescription,
+  this.userName});
 
   factory PostsModel.fromJson(Map<dynamic, dynamic> parsedJson) {
 
     return PostsModel(
       userDpUrl: parsedJson['dpUrl'],
-      userId: parsedJson['postTitle'],
+        userName: parsedJson['userName'],
+        userId: parsedJson['postTitle'],
       longitude: parsedJson['longitude'],
       latitude: parsedJson['latitude'],
       requiredService: parsedJson['postTitle'],
       requiredDescription: parsedJson['description'],
       returnService: parsedJson['returnService'],
       returnDescription: parsedJson['returnDescription']);
+
   }
 
 
