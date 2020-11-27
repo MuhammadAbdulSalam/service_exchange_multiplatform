@@ -44,6 +44,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     final prefs = await SharedPreferences.getInstance();
     try {
       Constants.IS_THEME_DARK = await prefs.getBool(Constants.COLOR_THEME) ?? true;
+      if(Constants.IS_THEME_DARK)
+        {
+          Constants.homeThemeDark();
+        }
+      else{
+        Constants.homeThemeLight();
+
+      }
+
     }catch(Exception){
     }
 

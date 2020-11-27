@@ -20,20 +20,23 @@ class _PostsHomePage extends State<PostsHomePage> {
   var makecall = new MakeCall();
   var isRe = false; //-------> to refresh and add conditions
 
-  String iconText(int index){
-    switch(index)
-    {
-      case 0:return "Near Me" ;
-      break;
-      case 1:return "My Posts" ;
-      break;
-      case 2:return "Refresh" ;
-      break;
-      case 3:return "Filter" ;
-      break;
-
+  String iconText(int index) {
+    switch (index) {
+      case 0:
+        return "Near Me";
+        break;
+      case 1:
+        return "My Posts";
+        break;
+      case 2:
+        return "Refresh";
+        break;
+      case 3:
+        return "Filter";
+        break;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     // var futureBuilder =
@@ -71,14 +74,14 @@ class _PostsHomePage extends State<PostsHomePage> {
                               icons[index],
                               color: Colors.blue,
                             ),
-                           Text(
+                            Text(
                               iconText(index),
                               style: TextStyle(
-                                  color: Constants.THEME_LABEL_COLOR, fontSize: 10),
+                                  color: Constants.THEME_DEFAULT_WHITE,
+                                  fontSize: 10),
                             ),
                           ],
                         ),
-
                       )),
                 ),
               ),
@@ -88,7 +91,7 @@ class _PostsHomePage extends State<PostsHomePage> {
               child: new Column(
             children: [
               new Container(
-                  color: Constants.THEME_DEFAULT_BACKGROUND,
+                  color: Constants.THEME_RECYCLER_BACKGROUND,
                   height: MediaQuery.of(context).size.height - 130,
                   child: PostsItemList(isRe))
             ],
@@ -143,6 +146,22 @@ class PostsItemList extends StatelessWidget {
 
   MakeCall mk = MakeCall();
 
+  final buttonIcons = [
+    Icons.comment_outlined,
+    Icons.post_add,
+  ];
+
+  String buttonText(int index) {
+    switch (index) {
+      case 0:
+        return " Comment";
+        break;
+      case 1:
+        return " Offer";
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -152,7 +171,16 @@ class PostsItemList extends StatelessWidget {
           case ConnectionState.none:
             return new Text('Press button to start');
           case ConnectionState.waiting:
-            return new Text('Loading....');
+            return new Scaffold(
+              backgroundColor: Constants.THEME_DEFAULT_BACKGROUND,
+              body: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 50.0,
+                    width: 50.0,
+                    child: CircularProgressIndicator(),
+                  )),
+            );
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
@@ -161,210 +189,251 @@ class PostsItemList extends StatelessWidget {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: new EdgeInsets.fromLTRB(5,10, 5, 10),
+                    padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Card(
-                      elevation: 10.0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Flexible(
-                          fit: FlexFit.tight,
-                          child: Card(
-                            elevation: 5,
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              child: Container(
-                                child: Column(
-                                  children: [
+                      color: Constants.THEME_CARD_COLOR,
+                      shadowColor: Constants.THEME_SHADOW_COLOR,
+                      child: Flexible(
+                        fit: FlexFit.tight,
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: <Widget>[
                                     Row(
-                                      children: <Widget>[
-                                        Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: new BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: new DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: new NetworkImage(
+                                                        "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+                                      ],
+                                    ),
+
+                                    Container(
+                                        padding:
+                                            EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Container(
-                                                width: 50,
-                                                height: 50,
-                                                decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: new DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: new NetworkImage(
-                                                            "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+                                            Text(
+                                              snapshot
+                                                  .data[index].requiredService,
+                                              style: TextStyle(
+                                                color: Constants
+                                                    .THEME_LABEL_COLOR,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 2,
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Text(
+                                              snapshot.data[index]
+                                                  .requiredDescription,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Constants
+                                                      .THEME_LABEL_COLOR),
+                                            ),
+                                            Text(
+                                              "x Miles",
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Constants
+                                                      .THEME_LABEL_COLOR),
+                                            ),
                                           ],
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                10, 0, 0, 0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  snapshot.data[index]
-                                                      .requiredService,
-                                                  style: TextStyle(
-                                                    color: Constants
-                                                        .THEME_DEFAULT_BLACK,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  maxLines: 2,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                                Text(
-                                                  snapshot.data[index]
-                                                      .requiredDescription,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .THEME_DEFAULT_BLACK),
-                                                ),
-                                                Text(
-                                                  "x Miles",
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .THEME_DEFAULT_BLACK),
-                                                ),
-                                              ],
-                                            ))
+                                        ))
 
-                                        // new Container(
-                                        //   child: Image.network(
-                                        //     snapshot.data[index].postTitle,
-                                        //     height: MediaQuery
-                                        //         .of(context)
-                                        //         .size
-                                        //         .width * 0.3, width: MediaQuery
-                                        //       .of(context)
-                                        //       .size
-                                        //       .width * 0.3,),
-                                        // ),
-                                      ],
-                                    ),
-                                    Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          color: Colors.blue,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            10, 10, 0, 0),
-                                                    child: Text(
-                                                      "Required: ",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .THEME_DARK_TEXT,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 10, 0, 0),
-                                                    child: Text(
-                                                      snapshot.data[index]
-                                                          .requiredService,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .THEME_DARK_TEXT, fontWeight:
-                                                      FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 5, 10, 10),
-                                                child: Text(
-                                                  snapshot.data[index]
-                                                      .requiredDescription,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .THEME_DARK_TEXT),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
-                                    Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          color: Constants.THEME_DEFAULT_BLACK,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            10, 10, 10, 0),
-                                                    child: Text(
-                                                      "Return: ",
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .THEME_DARK_TEXT,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 10, 10, 0),
-                                                    child: Text(
-                                                      snapshot.data[index]
-                                                          .returnDescription,
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                          color: Constants
-                                                              .THEME_DARK_TEXT),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 5, 10, 10),
-                                                child: Text(
-                                                  snapshot.data[index]
-                                                      .returnService,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .THEME_DARK_TEXT),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )),
+                                    // new Container(
+                                    //   child: Image.network(
+                                    //     snapshot.data[index].postTitle,
+                                    //     height: MediaQuery
+                                    //         .of(context)
+                                    //         .size
+                                    //         .width * 0.3, width: MediaQuery
+                                    //       .of(context)
+                                    //       .size
+                                    //       .width * 0.3,),
+                                    // ),
                                   ],
                                 ),
-                              ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                  child: Card(
+                                    elevation: 10,
+                                    color: Colors.green,
+                                    child: Container(
+                                        child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    10, 10, 0, 0),
+                                                child: Text(
+                                                  "Required: ",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .THEME_DEFAULT_BLACK,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 10, 0, 0),
+                                                child: Text(
+                                                  snapshot.data[index]
+                                                      .requiredService,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .THEME_DARK_TEXT,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 5, 10, 10),
+                                            child: Text(
+                                              snapshot.data[index]
+                                                  .requiredDescription,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Constants
+                                                      .THEME_DARK_TEXT),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+                                  child: Card(
+                                    elevation: 10,
+                                    color: Colors.orange,
+                                    child: Container(
+                                        child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    10, 10, 0, 0),
+                                                child: Text(
+                                                  "Return: ",
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .THEME_DEFAULT_BLACK,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 10, 10, 0),
+                                                child: Text(
+                                                  snapshot.data[index]
+                                                      .returnDescription,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Constants
+                                                          .THEME_DARK_TEXT,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 5, 10, 10),
+                                            child: Text(
+                                              snapshot
+                                                  .data[index].returnService,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Constants
+                                                      .THEME_DARK_TEXT),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          width: 2.0,
+                                          color: Constants.THEME_DEFAULT_BORDER),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: List.generate(
+                                      buttonIcons.length,
+                                      (index) => Expanded(
+                                        child: GestureDetector(
+                                            onTap: () => {},
+                                            child: Container(
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    buttonIcons[index],
+                                                    color: Colors.blue,
+                                                  ),
+                                                  Text(
+                                                    buttonText(index),
+                                                    style: TextStyle(
+                                                        color: Constants
+                                                            .THEME_LABEL_COLOR,
+                                                        fontSize: 12),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),

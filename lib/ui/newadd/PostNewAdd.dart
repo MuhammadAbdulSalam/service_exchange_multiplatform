@@ -253,7 +253,6 @@ class _PostNewAddState extends State<PostNewAdd> {
     });
   }
 
-
   String iconText(int index) {
     switch (index) {
       case 0:
@@ -268,8 +267,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
   }
 
-
-      @override
+  @override
   Widget build(BuildContext context) {
     if (currentLocationController.text.isEmpty) {
       _getCurrentLocation(context);
@@ -303,11 +301,11 @@ class _PostNewAddState extends State<PostNewAdd> {
                             Text(
                               iconText(index),
                               style: TextStyle(
-                                  color: Constants.THEME_LABEL_COLOR, fontSize: 10),
+                                  color: Constants.THEME_DEFAULT_WHITE,
+                                  fontSize: 10),
                             ),
                           ],
                         ),
-
                       )),
                 ),
               ),

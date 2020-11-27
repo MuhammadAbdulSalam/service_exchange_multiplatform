@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -14,6 +15,8 @@ class Constants {
   static bool IS_THEME_DARK = false;
   static Color THEME_DEFAULT_BLACK = Colors.black87;
   static Color THEME_DEFAULT_WHITE = Colors.white60;
+  static Color THEME_DEFAULT_FULL_WHITE = Colors.white;
+
   static Color THEME_DARK_TEXT = Colors.white;
 
   static Color THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_BLACK;
@@ -24,6 +27,9 @@ class Constants {
   static Color THEME_LABEL_COLOR = THEME_DARK_TEXT;
   static Color THEME_POST_ADD_CONTAINER = THEME_DEFAULT_BLACK;
   static Color THEME_WHITE_BACKGROUND_TEXT = THEME_DEFAULT_BLACK;
+  static Color THEME_SHADOW_COLOR = Colors.white;
+  static Color THEME_RECYCLER_BACKGROUND = THEME_DEFAULT_BLACK;
+  static Color THEME_CARD_COLOR = THEME_DEFAULT_BLACK;
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -32,6 +38,9 @@ class Constants {
     THEME_TEXT_BOX_COLOR = THEME_DEFAULT_WHITE;
     THEME_TEXT_HINT_COLOR = THEME_DEFAULT_BLACK;
     THEME_LABEL_COLOR = THEME_DEFAULT_BLACK;
+    THEME_SHADOW_COLOR = THEME_DEFAULT_BLACK;
+    THEME_RECYCLER_BACKGROUND = Color(0xE6FFFFFF);
+    THEME_CARD_COLOR = Colors.white;
   }
 
   static void homeThemeDark() {
@@ -41,17 +50,16 @@ class Constants {
     THEME_TEXT_BOX_COLOR = Colors.black54;
     THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
     THEME_LABEL_COLOR = THEME_DARK_TEXT;
-
+    THEME_SHADOW_COLOR = Colors.black54;
+    THEME_RECYCLER_BACKGROUND = Color(0x40FFFFFF);
+    THEME_CARD_COLOR = Colors.black54;
   }
 
-  static Color getContainerColor(){
-    if(IS_THEME_DARK)
-    {
+  static Color getContainerColor() {
+    if (IS_THEME_DARK) {
       return Colors.transparent;
-    }
-    else{
+    } else {
       return Colors.white;
-
     }
   }
 
@@ -69,12 +77,10 @@ class Constants {
 
   static const DEFAULT_BUTTON = Color(0xFF6dc1c3);
 
-
   static int CURRENT_INDEX = 0;
   static int HOME_INDEX = 0;
   static int POSTS_INDEX = 1;
   static int NEWADD_INDEX = 3;
-
 
 // iPhone 6S
 // |_ [portrait]

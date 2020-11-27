@@ -148,8 +148,8 @@ class _MyTabbedPageState extends State<ControllerActivity>
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               PlaceholderWidget(Colors.black87),
-              PlaceholderWidget(Constants.BLUE_SHADE_2),
               PostsHomePage(),
+              PlaceholderWidget(Constants.BLUE_SHADE_2),
               PostNewAdd(),
             ],
             controller: _tabController,
