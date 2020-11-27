@@ -7,10 +7,14 @@ import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip
 
 import 'LandingActivity.dart';
 
+
+
 class ControllerActivity extends StatefulWidget {
   @override
   _MyTabbedPageState createState() => new _MyTabbedPageState();
 }
+
+
 
 class _MyTabbedPageState extends State<ControllerActivity>
     with SingleTickerProviderStateMixin {

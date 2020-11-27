@@ -23,6 +23,7 @@ class Constants {
   static Color THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
   static Color THEME_LABEL_COLOR = THEME_DARK_TEXT;
   static Color THEME_POST_ADD_CONTAINER = THEME_DEFAULT_BLACK;
+  static Color THEME_WHITE_BACKGROUND_TEXT = THEME_DEFAULT_BLACK;
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -40,6 +41,7 @@ class Constants {
     THEME_TEXT_BOX_COLOR = Colors.black54;
     THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
     THEME_LABEL_COLOR = THEME_DARK_TEXT;
+
   }
 
   static Color getContainerColor(){

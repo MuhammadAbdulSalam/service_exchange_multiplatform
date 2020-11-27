@@ -217,8 +217,8 @@ class _PostNewAddState extends State<PostNewAdd> {
     final Map<String, String> postHashMap = {
       'postTitle': requestedServiceController.text,
       'description': requestedServiceController.text,
-      'returnService': requestedDescriptionController.text,
-      'returnDescription': returnServiceController.text,
+      'returnService': returnServiceController.text,
+      'returnDescription': returnDescriptionController.text,
       'latitude': _currentPosition.latitude.toString(),
       'longitude': _currentPosition.longitude.toString(),
       'offerStatus': "new",
@@ -253,7 +253,23 @@ class _PostNewAddState extends State<PostNewAdd> {
     });
   }
 
-  @override
+
+  String iconText(int index) {
+    switch (index) {
+      case 0:
+        return "clear";
+        break;
+      case 1:
+        return "get location";
+        break;
+      case 2:
+        return "template";
+        break;
+    }
+  }
+
+
+      @override
   Widget build(BuildContext context) {
     if (currentLocationController.text.isEmpty) {
       _getCurrentLocation(context);
@@ -278,11 +294,20 @@ class _PostNewAddState extends State<PostNewAdd> {
                   child: GestureDetector(
                       onTap: () => {_topBarFunctions(context, index)},
                       child: Container(
-                        height: 30,
-                        child: Icon(
-                          icons[index],
-                          color: Colors.blue,
+                        child: Column(
+                          children: [
+                            Icon(
+                              icons[index],
+                              color: Colors.blue,
+                            ),
+                            Text(
+                              iconText(index),
+                              style: TextStyle(
+                                  color: Constants.THEME_LABEL_COLOR, fontSize: 10),
+                            ),
+                          ],
                         ),
+
                       )),
                 ),
               ),

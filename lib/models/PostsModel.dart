@@ -40,14 +40,14 @@ class PostsModel {
   factory PostsModel.fromJson(Map<dynamic, dynamic> parsedJson) {
 
     return PostsModel(
-      userDpUrl: parsedJson['postTitle'],
+      userDpUrl: parsedJson['dpUrl'],
       userId: parsedJson['postTitle'],
-      longitude: parsedJson['postTitle'],
-      latitude: parsedJson['postTitle'],
+      longitude: parsedJson['longitude'],
+      latitude: parsedJson['latitude'],
       requiredService: parsedJson['postTitle'],
-      requiredDescription: parsedJson['postTitle'],
-      returnService: parsedJson['postTitle'],
-      returnDescription: parsedJson['postTitle']);
+      requiredDescription: parsedJson['description'],
+      returnService: parsedJson['returnService'],
+      returnDescription: parsedJson['returnDescription']);
   }
 
 
