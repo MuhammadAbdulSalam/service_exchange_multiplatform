@@ -7,7 +7,9 @@ import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 
 
 class FirebasePostCall {
+
   Future<List<PostsModel>> getPostsList(listType typeOfList) async {
+
     List<PostsModel> postList = [];
 
     if (typeOfList ==listType.NEAR_ME) {
