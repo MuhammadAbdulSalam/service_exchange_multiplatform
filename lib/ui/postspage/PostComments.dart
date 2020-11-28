@@ -82,7 +82,11 @@ class _PostComments extends State<PostComments> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Constants.THEME_TEXT_BOX_COLOR,
-
+              border: new OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  const Radius.circular(0.0),
+                ),
+              ),
               labelText: 'Add Comment Here',
               labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
             ),

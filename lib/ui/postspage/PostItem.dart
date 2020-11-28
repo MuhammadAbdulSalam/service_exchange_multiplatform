@@ -45,9 +45,9 @@ class PostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Card(
+    return Container(
       color: Constants.THEME_CARD_COLOR,
-      shadowColor: Constants.THEME_SHADOW_COLOR,
+      // shadowColor: Constants.THEME_SHADOW_COLOR,
       child: Flexible(
         fit: FlexFit.tight,
         child: Container(

@@ -40,7 +40,7 @@ class PostsItemsList extends StatelessWidget {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                     child: PostItem(snapshot, index, false)
                   );
                 },
