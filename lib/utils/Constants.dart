@@ -24,6 +24,7 @@ class Constants {
   static Color THEME_DEFAULT_BLACK = Colors.black87;
   static Color THEME_DEFAULT_WHITE = Colors.white60;
   static Color THEME_DEFAULT_FULL_WHITE = Colors.white;
+  static Color THEME_LIGHT_BLACK = Colors.black54;
 
   static Color THEME_DARK_TEXT = Colors.white;
 

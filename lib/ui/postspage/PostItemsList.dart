@@ -12,6 +12,7 @@ class PostsItemsList extends StatelessWidget {
   PostsItemsList(this.listTypeNeeded);
   FirebasePostCall firebasePostCall = FirebasePostCall();
 
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -35,7 +36,15 @@ class PostsItemsList extends StatelessWidget {
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
             else
-              return PostItem(snapshot);
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: PostItem(snapshot, index, false)
+                  );
+                },
+              );
         }
       },
     );

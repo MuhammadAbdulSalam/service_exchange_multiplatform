@@ -88,9 +88,13 @@ class _LoginState extends State<LoginActivity> {
         if (e.code == 'user-not-found') {
           showAlertDialog(context,
               "No user found with this email, please check your email and try again");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+              .pop();
         } else if (e.code == 'wrong-password') {
           showAlertDialog(context,
               "Password is wrong, Please check and enter password again");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+              .pop();
         }
       }
 
