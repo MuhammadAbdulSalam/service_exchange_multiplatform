@@ -6,10 +6,10 @@ import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
 class PostItem extends StatelessWidget {
   AsyncSnapshot snapshot;
-  int index;
+  int postIndex;
   bool isCommentItem;
 
-  PostItem(this.snapshot, this.index, this.isCommentItem);
+  PostItem(this.snapshot, this.postIndex, this.isCommentItem);
 
   List<IconData>  getIconList(){
     if(isCommentItem){
@@ -80,7 +80,7 @@ class PostItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                snapshot.data[index].userName,
+                                snapshot.data[postIndex].userName,
                                 style: TextStyle(
                                   color: Constants.THEME_LABEL_COLOR,
                                   fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class PostItem extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ),
                               Text(
-                                snapshot.data[index].returnService,
+                                snapshot.data[postIndex].returnService,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Constants.THEME_LABEL_COLOR),
@@ -119,8 +119,7 @@ class PostItem extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Card(
-                    elevation: 10,
+                  child: Container(
                     color: Colors.green,
                     child: Container(
                         child: Container(
@@ -144,7 +143,7 @@ class PostItem extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                 child: Text(
-                                  snapshot.data[index].requiredService,
+                                  snapshot.data[postIndex].requiredService,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Constants.THEME_DARK_TEXT,
@@ -156,7 +155,7 @@ class PostItem extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              snapshot.data[index].requiredDescription,
+                              snapshot.data[postIndex].requiredDescription,
                               textAlign: TextAlign.left,
                               style:
                                   TextStyle(color: Constants.THEME_DARK_TEXT),
@@ -169,8 +168,7 @@ class PostItem extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                  child: Card(
-                    elevation: 10,
+                  child: Container(
                     color: Colors.orange,
                     child: Container(
                         child: Container(
@@ -194,7 +192,7 @@ class PostItem extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
                                 child: Text(
-                                  snapshot.data[index].returnService,
+                                  snapshot.data[postIndex].returnService,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Constants.THEME_DARK_TEXT,
@@ -206,7 +204,7 @@ class PostItem extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
                             child: Text(
-                              snapshot.data[index].returnDescription,
+                              snapshot.data[postIndex].returnDescription,
                               textAlign: TextAlign.left,
                               style:
                                   TextStyle(color: Constants.THEME_DARK_TEXT),
@@ -238,7 +236,7 @@ class PostItem extends StatelessWidget {
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   PostComments(
-                                                      snapshot, index))),
+                                                      snapshot, postIndex))),
                                     }
                                 },
                             child: Container(
@@ -271,3 +269,5 @@ class PostItem extends StatelessWidget {
     );
   }
 }
+
+

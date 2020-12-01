@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostItemsList.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
-import 'FirebasePostCall.dart';
+import '../../utils/FirebaseCallHelper.dart';
 
 final icons = [
   Icons.near_me,

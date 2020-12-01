@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
 
 enum listType {
   NEAR_ME,
@@ -95,6 +96,10 @@ class Constants {
   static int MY_POSTS = 0;
   static int REFRESH = 1;
   static int FILTER = 3;
+
+
+
+  static List<UserDataModel> userList = [];
 
 
 

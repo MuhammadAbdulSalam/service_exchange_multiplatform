@@ -8,19 +8,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter/animation.dart';
 import 'package:service_exchange_multiplatform/ui/homepage/ControllerActivity.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
+import 'package:service_exchange_multiplatform/utils/FirebaseCallHelper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/homepage/LandingActivity.dart';
 import 'ui/loginviews/LoginActivity.dart';
-
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(new MaterialApp(
-
     home: new SplashScreen(),
   ));
 }
@@ -30,55 +28,45 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => new _SplashScreenState();
 }
 
-
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin{
-
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  FirebaseCallHelper firebaseCallHelper = FirebaseCallHelper();
 
   startTime() async {
     var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
-
   void setUserTheme() async {
     final prefs = await SharedPreferences.getInstance();
     try {
-      Constants.IS_THEME_DARK = await prefs.getBool(Constants.COLOR_THEME) ?? true;
-      if(Constants.IS_THEME_DARK)
-        {
-          Constants.homeThemeDark();
-        }
-      else{
+      Constants.IS_THEME_DARK =
+          await prefs.getBool(Constants.COLOR_THEME) ?? false;
+      if (Constants.IS_THEME_DARK) {
+        Constants.homeThemeDark();
+      } else {
         Constants.homeThemeLight();
-
       }
-
-    }catch(Exception){
-    }
-
+    } catch (Exception) {}
   }
 
   void navigationPage() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     try {
-      if ( FirebaseAuth.instance.currentUser != null) {
-
+      if (FirebaseAuth.instance.currentUser != null) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => ControllerActivity()),
             ModalRoute.withName("/Home"));
-      }
-      else{
+      } else {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => LoginActivity()),
             ModalRoute.withName("/Home"));
       }
     } catch (Exception) {}
-
   }
-
 
   //Animation
   Animation<double> backgroundAnimation;
@@ -140,8 +128,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     ),
   ]);
 
-  AlignmentTween alignmentTop = AlignmentTween(begin: Alignment.topRight,end: Alignment.topLeft);
-  AlignmentTween alignmentBottom = AlignmentTween(begin: Alignment.bottomRight,end: Alignment.bottomLeft);
+  AlignmentTween alignmentTop =
+      AlignmentTween(begin: Alignment.topRight, end: Alignment.topLeft);
+  AlignmentTween alignmentBottom =
+      AlignmentTween(begin: Alignment.bottomRight, end: Alignment.bottomLeft);
 
   @override
   void initState() {
@@ -150,80 +140,80 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     setUserTheme();
 
+    if (FirebaseAuth.instance.currentUser != null) {
+      firebaseCallHelper.getUserList().then((value) {
+        Constants.userList = value;
+      });
+    }
+
     _backgroundController = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
     )..repeat();
 
-    backgroundAnimation = CurvedAnimation(parent: _backgroundController, curve: Curves.easeIn)
-      ..addStatusListener((status){
-        if(status == AnimationStatus.completed){
-          setState(() {
-
-            _backgroundController.forward(from: 0);
+    backgroundAnimation =
+        CurvedAnimation(parent: _backgroundController, curve: Curves.easeIn)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              setState(() {
+                _backgroundController.forward(from: 0);
+              });
+            }
+            if (status == AnimationStatus.dismissed) {
+              setState(() {
+                _backgroundController.forward(from: 0);
+              });
+            }
           });
-        }
-        if(status == AnimationStatus.dismissed){
-          setState(() {
-            _backgroundController.forward(from: 0);
-          });
-        }
-      });
 
     startTime();
-
   }
+
   @override
   Widget build(BuildContext context) {
-
     // Add below to add bubbles intially.
 
     return AnimatedBuilder(
       animation: backgroundAnimation,
-      builder: (context, child){
+      builder: (context, child) {
         return Scaffold(
-
-          body:  Stack(
+          body: Stack(
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: alignmentTop.evaluate(backgroundAnimation),
-                    end: alignmentBottom.evaluate(backgroundAnimation),
-                    colors: [
-                      backgroundDark.evaluate(backgroundAnimation),
-                      backgroundNormal.evaluate(backgroundAnimation),
-                      backgroundLight.evaluate(backgroundAnimation),
-
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: alignmentTop.evaluate(backgroundAnimation),
+                        end: alignmentBottom.evaluate(backgroundAnimation),
+                        colors: [
+                          backgroundDark.evaluate(backgroundAnimation),
+                          backgroundNormal.evaluate(backgroundAnimation),
+                          backgroundLight.evaluate(backgroundAnimation),
+                        ],
+                      ),
+                    ),
+                  ),
+                ] +
+                [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: new Image.asset("images/logo_main.png",
+                              width: 170, height: 170)),
                     ],
                   ),
-                ),
-              ),
-
-
-            ]
-                +[Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: new Image.asset("images/logo_main.png", width: 170, height: 170)
-                    ),
-                  ],
-                ),],
+                ],
           ),
-
-
         );
       },
     );
   }
+
   @override
   void dispose() {
     super.dispose();
     _backgroundController.dispose();
   }
-
 }
-

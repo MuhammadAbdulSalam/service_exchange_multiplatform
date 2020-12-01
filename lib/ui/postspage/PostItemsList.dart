@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
-import 'FirebasePostCall.dart';
+import '../../utils/FirebaseCallHelper.dart';
 import 'PostItem.dart';
 
 class PostsItemsList extends StatelessWidget {
 
   listType listTypeNeeded;
   PostsItemsList(this.listTypeNeeded);
-  FirebasePostCall firebasePostCall = FirebasePostCall();
+  FirebaseCallHelper firebasePostCall = FirebaseCallHelper();
 
 
   @override

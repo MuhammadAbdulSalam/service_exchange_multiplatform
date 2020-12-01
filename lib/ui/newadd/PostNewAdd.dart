@@ -228,7 +228,7 @@ class _PostNewAddState extends State<PostNewAdd> {
       'dealMade': 'pending',
       'dpUrl': "default",
       'userId': FirebaseAuth.instance.currentUser.uid.toString(),
-      'userName': prefs.get(Constants.USER_NAME)
+      'userName': Constants.userList[0].name
 
     };
 
@@ -241,7 +241,7 @@ class _PostNewAddState extends State<PostNewAdd> {
       await FirebaseHelper.USER_DB
           .child(FirebaseAuth.instance.currentUser.uid)
           .child("posts")
-          .child("id")
+          .child(postKey)
           .set(postKey)
           .then((value) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
