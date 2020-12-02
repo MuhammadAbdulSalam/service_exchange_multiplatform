@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:service_exchange_multiplatform/models/CommentsModel.dart';
 import 'package:service_exchange_multiplatform/models/PostsModel.dart';
 import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
@@ -65,27 +66,12 @@ class FirebaseCallHelper {
     return userList;
   }
 
-  Future<List<CommentModel>> getCommentsList(String postKey) async {
-    List<CommentModel> commentList = [];
 
-    await FirebaseHelper.POST_DB
-        .child(postKey)
-    .child("Comments")
-    .orderByKey()
-        .once()
-        .then((result) async {
-      if (result.value != null) {
-        result.value.forEach((key, childSnapshot) {
-          commentList.add(CommentModel.fromJson(Map.from(childSnapshot)));
-        });
-      } else {
-        print('getUserJobs() no jobs found');
-      }
-    }).catchError((e) {
-      print('getUserJobs() error: $e');
-    });
-
-
-    return commentList;
+  Query getCommentsQuery(String postId){
+    return FirebaseDatabase.instance
+        .reference()
+        .child("Posts")
+        .child(postId)
+        .child("Comments");
   }
 }

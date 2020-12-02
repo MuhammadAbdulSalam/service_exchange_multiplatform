@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/models/PostsModel.dart';
@@ -31,15 +32,12 @@ class _PostComments extends State<PostComments> {
   Future<void> postComment(String postId) async {
     String key = FirebaseHelper.getCommentsDB(postId).push().key;
 
-
     final Map<String, dynamic> commentHashMap = {
       'userId': FirebaseAuth.instance.currentUser.uid.toString(),
       'userDpUrl': Constants.userList[0].dpUrl.toString(),
       'name': Constants.userList[0].name.toString(),
-      'comment': commentController.text,
-      'timestamp': DateTime.now().toUtc().millisecondsSinceEpoch.toString()
-
-  };
+      'comment': commentController.text
+    };
     await FirebaseHelper.getCommentsDB(postId)
         .child(key)
         .set(commentHashMap)
@@ -57,6 +55,7 @@ class _PostComments extends State<PostComments> {
         );
       });
     });
+
   }
 
   @override
@@ -90,103 +89,85 @@ class _PostComments extends State<PostComments> {
             children: <Widget>[
               PostItem(postSnapShot, index, true),
               Container(
-                child: FutureBuilder(
-                  future: firebaseCallHelper
-                      .getCommentsList(postSnapShot.data[index].postId),
-                  // async work
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return new Text('Press button to start');
-                      case ConnectionState.waiting:
-                        return new Container(
-                          color: Constants.THEME_DEFAULT_BACKGROUND,
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                height: 50.0,
-                                width: 50.0,
-                                child: CircularProgressIndicator(),
-                              )),
-                        );
-                      default:
-                        if (snapshot.hasError)
-                          return new Text('Error: ${snapshot.error}');
-                        else
-                          return ListView.builder(
-                            itemCount: snapshot.data.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                  padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  child: Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                width: 30,
-                                                height: 30,
-                                                decoration: new BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: new DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: new NetworkImage(
-                                                            "https://www.woolha.com/media/2019/06/buneary.jpg")))),
-                                          ],
-                                        ),
+                child: new FirebaseAnimatedList(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    query: firebaseCallHelper.getCommentsQuery(postSnapShot.data[0].postId),
+                    padding: new EdgeInsets.all(8.0),
+                    reverse: false,
+                    itemBuilder: (_, DataSnapshot snapshot,
+                        Animation<double> animation, int x) {
 
-                                        Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                10, 0, 0, 0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  snapshot.data[index].name,
-                                                  style: TextStyle(
-                                                    color: Constants
-                                                        .THEME_LABEL_COLOR,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  maxLines: 2,
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                                Text(
-                                                  snapshot.data[index].comment,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Constants
-                                                          .THEME_LABEL_COLOR),
-                                                ),
-                                              ],
-                                            ))
+                      return Padding(
+                          padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Container(
 
-                                        // new Container(
-                                        //   child: Image.network(
-                                        //     snapshot.data[index].postTitle,
-                                        //     height: MediaQuery
-                                        //         .of(context)
-                                        //         .size
-                                        //         .width * 0.3, width: MediaQuery
-                                        //       .of(context)
-                                        //       .size
-                                        //       .width * 0.3,),
-                                        // ),
-                                      ],
+                            child: Row(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: new NetworkImage(
+                                                    "https://www.woolha.com/media/2019/06/buneary.jpg")))
+
                                     ),
-                                  ));
-                            },
-                          );
-                    }
-                  },
-                ),
+                                  ],
+                                ),
+
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          snapshot.value["name"],
+                                          style: TextStyle(
+                                            color: Constants.THEME_LABEL_COLOR,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Text(
+                                          snapshot.value["comment"],
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color:
+                                                  Constants.THEME_LABEL_COLOR),
+                                        ),
+                                      ],
+                                    ))
+
+                                // new Container(
+                                //   child: Image.network(
+                                //     snapshot.data[index].postTitle,
+                                //     height: MediaQuery
+                                //         .of(context)
+                                //         .size
+                                //         .width * 0.3, width: MediaQuery
+                                //       .of(context)
+                                //       .size
+                                //       .width * 0.3,),
+                                // ),
+                              ],
+                            ),
+                          ));
+                    }),
               ),
             ],
           ),
@@ -231,5 +212,8 @@ class _PostComments extends State<PostComments> {
         ),
       ),
     ]);
+
+
   }
+
 }
