@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
 import '../../utils/FirebaseCallHelper.dart';
-import 'PostItem.dart';
+import 'items/PostItem.dart';
+
+
 
 class PostsItemsList extends StatelessWidget {
 

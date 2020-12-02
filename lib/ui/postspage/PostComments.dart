@@ -4,32 +4,37 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/models/PostsModel.dart';
-import 'package:service_exchange_multiplatform/ui/postspage/PostItem.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/items/PostItem.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseCallHelper.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 import 'package:uuid/uuid.dart';
 
-class PostComments extends StatefulWidget {
-  AsyncSnapshot snapshot;
-  int index;
+import 'items/CommentItem.dart';
 
-  PostComments(this.snapshot, this.index);
+// class PostComments extends StatefulWidget {
+//   AsyncSnapshot snapshot;
+//   int index;
+//
+//   PostComments(this.snapshot, this.index);
+//
+//   @override
+//   _PostComments createState() => _PostComments(snapshot, index);
+// }
 
-  @override
-  _PostComments createState() => _PostComments(snapshot, index);
-}
-
-class _PostComments extends State<PostComments> {
+class PostComments extends StatelessWidget {
   final AsyncSnapshot postSnapShot;
   final int index;
   final FirebaseCallHelper firebaseCallHelper = FirebaseCallHelper();
   final commentController = TextEditingController();
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = new ScrollController();
+  final GlobalKey<State> aKey = new GlobalKey<State>();
 
-  _PostComments(this.postSnapShot, this.index);
 
-  Future<void> postComment(String postId) async {
+  PostComments(this.postSnapShot, this.index);
+
+  Future<void> postComment(String postId, BuildContext context) async {
     String key = FirebaseHelper.getCommentsDB(postId).push().key;
 
     final Map<String, dynamic> commentHashMap = {
@@ -46,20 +51,18 @@ class _PostComments extends State<PostComments> {
 
       FocusScope.of(context).requestFocus(FocusNode());
 
-      setState(() {
-        _scrollController.animateTo(
-          // NEW
-          _scrollController.position.maxScrollExtent, // NEW
-          duration: const Duration(milliseconds: 500), // NEW
-          curve: Curves.ease, // NEW
-        );
-      });
+      _scrollController.animateTo(
+        // NEW
+        _scrollController.position.maxScrollExtent, // NEW
+        duration: const Duration(milliseconds: 500), // NEW
+        curve: Curves.ease, // NEW
+      );
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -92,82 +95,16 @@ class _PostComments extends State<PostComments> {
                 child: new FirebaseAnimatedList(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    query: firebaseCallHelper.getCommentsQuery(postSnapShot.data[0].postId),
+                    query: firebaseCallHelper
+                        .getCommentsQuery(postSnapShot.data[index].postId),
                     padding: new EdgeInsets.all(8.0),
                     reverse: false,
                     itemBuilder: (_, DataSnapshot snapshot,
                         Animation<double> animation, int x) {
+                      return CommentItem(mContext, animation, index, snapshot);
+                    }
 
-                      return Padding(
-                          padding: new EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          child: Container(
-
-                            child: Row(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                              MainAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: new NetworkImage(
-                                                    "https://www.woolha.com/media/2019/06/buneary.jpg")))
-
-                                    ),
-                                  ],
-                                ),
-
-                                Container(
-                                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshot.value["name"],
-                                          style: TextStyle(
-                                            color: Constants.THEME_LABEL_COLOR,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 2,
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Text(
-                                          snapshot.value["comment"],
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color:
-                                                  Constants.THEME_LABEL_COLOR),
-                                        ),
-                                      ],
-                                    ))
-
-                                // new Container(
-                                //   child: Image.network(
-                                //     snapshot.data[index].postTitle,
-                                //     height: MediaQuery
-                                //         .of(context)
-                                //         .size
-                                //         .width * 0.3, width: MediaQuery
-                                //       .of(context)
-                                //       .size
-                                //       .width * 0.3,),
-                                // ),
-                              ],
-                            ),
-                          ));
-                    }),
+                    ),
               ),
             ],
           ),
@@ -175,9 +112,6 @@ class _PostComments extends State<PostComments> {
         bottomNavigationBar: Container(
           color: Constants.THEME_TEXT_BOX_COLOR,
           height: 3 * 24.0,
-        ),
-        floatingActionButton: Container(
-          child: Text("asdasd"),
         ),
       ),
       Positioned(
@@ -196,7 +130,7 @@ class _PostComments extends State<PostComments> {
               fillColor: Constants.THEME_TEXT_BOX_COLOR,
               suffixIcon: IconButton(
                 onPressed: () => {
-                  postComment(postSnapShot.data[index].postId),
+                  postComment(postSnapShot.data[index].postId, mContext),
                 },
                 icon: Icon(Icons.send),
               ),
@@ -212,8 +146,8 @@ class _PostComments extends State<PostComments> {
         ),
       ),
     ]);
-
-
   }
+
+
 
 }

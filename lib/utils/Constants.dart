@@ -40,6 +40,7 @@ class Constants {
   static Color THEME_SHADOW_COLOR = Colors.white;
   static Color THEME_RECYCLER_BACKGROUND = THEME_DEFAULT_BLACK;
   static Color THEME_CARD_COLOR = THEME_DEFAULT_BLACK;
+  static Color THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -51,6 +52,8 @@ class Constants {
     THEME_SHADOW_COLOR = THEME_DEFAULT_BLACK;
     THEME_RECYCLER_BACKGROUND = Color(0xE6FFFFFF);
     THEME_CARD_COLOR = Colors.white;
+    THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
+
   }
 
   static void homeThemeDark() {
@@ -63,6 +66,8 @@ class Constants {
     THEME_SHADOW_COLOR = Colors.black54;
     THEME_RECYCLER_BACKGROUND = Color(0x40FFFFFF);
     THEME_CARD_COLOR = Colors.black54;
+    THEME_COMMENT_BACKGROUND = Colors.black54;
+
   }
 
   static Color getContainerColor() {
