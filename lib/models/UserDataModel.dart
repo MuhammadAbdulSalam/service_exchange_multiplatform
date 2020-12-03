@@ -34,7 +34,7 @@ class UserDataModel {
     return UserDataModel(
         address: parsedJson['address'],
         dpUrl: parsedJson['dpUrl'],
-        jobTitle: parsedJson['jobTitle:'],
+        jobTitle: parsedJson['jobTitle'],
         name: parsedJson['name'],
         phoneNumber: parsedJson['phoneNumber']);
   }

@@ -118,7 +118,7 @@ class PostItem extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Container(
                     color: Colors.green,
                     child: Container(
@@ -167,7 +167,7 @@ class PostItem extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+                  padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                   child: Container(
                     color: Colors.orange,
                     child: Container(

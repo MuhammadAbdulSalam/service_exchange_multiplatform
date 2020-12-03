@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
+import 'package:service_exchange_multiplatform/ui/profilepage/ProfileWidget.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/ProfileInfoWidget.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_bar_item.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_box_bar.dart';
 
 import 'LandingActivity.dart';
 
-
-
 class ControllerActivity extends StatefulWidget {
   @override
   _MyTabbedPageState createState() => new _MyTabbedPageState();
 }
-
-
 
 class _MyTabbedPageState extends State<ControllerActivity>
     with SingleTickerProviderStateMixin {
@@ -51,7 +49,7 @@ class _MyTabbedPageState extends State<ControllerActivity>
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  child: Text('X exit'),
+                  child: ProfileInfoWidget(true),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -89,14 +87,36 @@ class _MyTabbedPageState extends State<ControllerActivity>
                         activeColor: Colors.green,
                       ),
                     ]),
-                ListTile(
-                  title: Text('Item 1'),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.pop(context);
-                  },
+                Container(
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ProfileWidget()));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: Colors.blueAccent,
+                            size: 24.0,
+                          ),
+                          Text(
+                            "  Profile",
+                            style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 ListTile(
                   title: Text('Item 2'),
