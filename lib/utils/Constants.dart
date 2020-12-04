@@ -1,27 +1,57 @@
-
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class Constants{
-
-  static const DEFAULT_BLUE =  Color(0xFF6dc1c3);
+class Constants {
+  static const DEFAULT_BLUE = Color(0xFF6dc1c3);
   static const BLUE_SHADE_1 = Color(0xFF81E4E6);
   static const BLUE_SHADE_2 = Color(0xFF88F0F2);
-
   static const DEFAULT_ORANGE = Color(0xFFd25643);
   static const ORANGE_SHADE_1 = Color(0xFFE65E49);
   static const ORANGE_SHADE_2 = Color(0xFF2634E);
   static const DARK_GREY = Color(0xFF2b2b2b);
 
-  static const THEME_DEFAULT_BACKGROUND = Colors.black87;
-  static const THEME_DEFAULT_BORDER = Colors.white;
-  static const THEME_DEFAULT_TEXT = Colors.white;
-  static const THEME_TEXT_BOX_COLOR = Colors.black54;
+  static bool IS_THEME_DARK = false;
+  static Color THEME_DEFAULT_BLACK = Colors.black87;
+  static Color THEME_DEFAULT_WHITE = Colors.white60;
+  static Color THEME_DARK_TEXT = Colors.white;
 
+  static Color THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_BLACK;
+  static Color THEME_DEFAULT_BORDER = THEME_DEFAULT_WHITE;
+  static Color THEME_DEFAULT_TEXT = THEME_DARK_TEXT;
+  static Color THEME_TEXT_BOX_COLOR = Colors.black54;
+  static Color THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
+  static Color THEME_LABEL_COLOR = THEME_DARK_TEXT;
+  static Color THEME_POST_ADD_CONTAINER = THEME_DEFAULT_BLACK;
 
+  static void homeThemeLight() {
+    THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
+    THEME_DEFAULT_BORDER = THEME_DEFAULT_BLACK;
+    THEME_DEFAULT_TEXT = Colors.black;
+    THEME_TEXT_BOX_COLOR = THEME_DEFAULT_WHITE;
+    THEME_TEXT_HINT_COLOR = THEME_DEFAULT_BLACK;
+    THEME_LABEL_COLOR = THEME_DEFAULT_BLACK;
+  }
 
+  static void homeThemeDark() {
+    THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_BLACK;
+    THEME_DEFAULT_BORDER = THEME_DEFAULT_WHITE;
+    THEME_DEFAULT_TEXT = THEME_DARK_TEXT;
+    THEME_TEXT_BOX_COLOR = Colors.black54;
+    THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
+    THEME_LABEL_COLOR = THEME_DARK_TEXT;
+  }
+
+  static Color getContainerColor(){
+    if(IS_THEME_DARK)
+    {
+      return Colors.transparent;
+    }
+    else{
+      return Colors.white;
+
+    }
+  }
 
   static const USER_NAME = "user_name";
   static const USER_JOB = "user_job";
@@ -30,14 +60,12 @@ class Constants{
   static const USER_DP = "user_dp";
   static const TEMPLATE_SERVICE = "template_service";
   static const TEMPLATE_DESCRIPTION = "template_description";
-
-
+  static const COLOR_THEME = "color_theme";
 
   // ignore: non_constant_identifier_names
   static var registration_Address = "";
 
-  static const DEFAULT_BUTTON =  Color(0xFF6dc1c3);
-
+  static const DEFAULT_BUTTON = Color(0xFF6dc1c3);
 
 // iPhone 6S
 // |_ [portrait]
@@ -86,8 +114,5 @@ class Constants{
 // |_ [horizontal]
 //    |_ size: 1366.0x1024.0, pixelRatio: 2.0, pixels: 2732.0x2048.0
 //       |_ diagonal: 1707.2000468603555
-
-
-
 
 }

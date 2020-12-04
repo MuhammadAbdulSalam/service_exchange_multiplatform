@@ -4,28 +4,15 @@ import 'package:service_exchange_multiplatform/ui/homepage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/CustomPagerPhysics.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/flip_bar_item.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/flip_box_bar.dart';
-import 'package:service_exchange_multiplatform/utils/Dialoge.dart';
-
-
-void main() => runApp(App());
-
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My Flutter App',
-      home: LandingActivity(),
-    );
-  }
-}
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/SideNavigationBar.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_bar_item.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_box_bar.dart';
 
 final icons = [
   Icons.clear,
   Icons.my_location,
   Icons.auto_fix_high,
-
 ];
 
 class LandingActivity extends StatefulWidget {
@@ -38,6 +25,7 @@ class LandingActivity extends StatefulWidget {
 class _LandingActivity extends State<LandingActivity> {
   int selectedIndex = 0;
   PageController _pageController;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void _changePage(int pageNum) {
     setState(() {
@@ -65,19 +53,96 @@ class _LandingActivity extends State<LandingActivity> {
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
+        key: _scaffoldKey,
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: Container(
+            color: Constants.THEME_DEFAULT_BACKGROUND,
+            child: ListView(
+              // Important: Remove any padding from the ListView.
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  child: Text('X exit'),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                        Constants.DEFAULT_ORANGE,
+                        Constants.DEFAULT_BLUE,
+                      ])),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "Dark Mode ",
+                        style: TextStyle(
+                            color: Constants.THEME_LABEL_COLOR,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Switch(
+                        value: Constants.IS_THEME_DARK,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value == true) {
+                              Constants.homeThemeDark();
+                              Constants.IS_THEME_DARK = true;
+                              onTabTapped(selectedIndex);
+                            } else {
+                              Constants.homeThemeLight();
+                              Constants.IS_THEME_DARK = false;
+                              onTabTapped(selectedIndex);
+                            }
+                          });
+                        },
+                        activeTrackColor: Colors.lightGreenAccent,
+                        activeColor: Colors.green,
+                      ),
+                    ]),
+                ListTile(
+                  title: Text('Item 1'),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Item 2'),
+                  onTap: () {
+                    // Update the state of the app
+                    // ...
+                    // Then close the drawer
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
         body: NestedScrollView(
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
+                  leading: IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      }),
                   expandedHeight: 70.0,
                   floating: true,
                   pinned: false,
-                  forceElevated: innerBoxIsScrolled,
+                  snap: true,
+                  elevation: 50,
                   flexibleSpace: Container(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -112,7 +177,6 @@ class _LandingActivity extends State<LandingActivity> {
                 PlaceholderWidget(Constants.BLUE_SHADE_2),
                 PostsHomePage(),
                 PostNewAdd(),
-
               ],
             )),
         bottomNavigationBar: FlipBoxBar(

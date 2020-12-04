@@ -5,7 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/location/AddressAutoComplete.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/Dialoge.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'LoginActivity.dart';

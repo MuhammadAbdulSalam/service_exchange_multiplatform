@@ -1,11 +1,14 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:service_exchange_multiplatform/ui/loginviews/LoginActivity.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/Dialoge.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
-import 'package:service_exchange_multiplatform/utils/flipbar/src/TemplateDialog.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/TemplateDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -21,6 +24,8 @@ class _PostNewAddState extends State<PostNewAdd> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   Position _currentPosition;
   String currentLocation;
+  Timer _timerDialog;
+
 
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
@@ -82,15 +87,15 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     if (index == TOOLBAR_MAGIC_INDEX) {
-      final prefs = await SharedPreferences.getInstance();
-      String templateService =
-          await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
-      String templateDescription =
-          await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
 
-      if (templateDescription == "default" && templateService == "default") {
+      final prefs = await SharedPreferences.getInstance();
+      String templateService = await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
+      String templateDescription = await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
+
+      if ((templateDescription == "default" && templateService == "default") ||
+          (templateDescription == "" && templateService == "")) {
         showAlertDialog(context,
-            "You do not have a template stored. Would you like to save a template now? You can then use this tepmlate by pressing the magic wand icon");
+            "You do not have a template stored. Would you like to save a template now? You can then use this template by pressing the magic wand icon");
       } else {
         returnServiceController.text = templateService;
         returnDescriptionController.text = templateDescription;
@@ -174,6 +179,29 @@ class _PostNewAddState extends State<PostNewAdd> {
     return null;
   }
 
+  void showTimedDialog(){
+    showDialog(
+        context: context,
+        builder: (BuildContext builderContext) {
+          _timerDialog = Timer(Duration(seconds: 2), () {
+            Navigator.of(context).pop();
+          });
+
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text('Success'),
+            content: SingleChildScrollView(
+              child: Text('Post Uploaded Successfully'),
+            ),
+          );
+        }
+    ).then((val){
+      if (_timerDialog.isActive) {
+        _timerDialog.cancel();
+      }
+    });
+  }
+
   Future<void> _handlePostAdds(BuildContext context) async {
     Dialoge.showLoadingDialog(context, _keyLoader); //invoking progreebar
 
@@ -196,11 +224,14 @@ class _PostNewAddState extends State<PostNewAdd> {
         .set(postHashMap)
         .then((value) async {
       await FirebaseHelper.USER_DB
+          .child(FirebaseAuth.instance.currentUser.uid)
           .child("posts")
-          .child(postKey)
+          .child("id")
           .set(postKey)
           .then((value) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+        showTimedDialog();
 
         clearTextBoxes();
       }).catchError((onError) {
@@ -220,7 +251,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     return Container(
-        color: Constants.THEME_DEFAULT_BACKGROUND,
+        color: Constants.THEME_DEFAULT_BLACK,
         child: SafeArea(
             child: Column(children: <Widget>[
           Container(
@@ -250,6 +281,7 @@ class _PostNewAddState extends State<PostNewAdd> {
           ),
           Expanded(
             child: Container(
+              color: Constants.getContainerColor(),
               child: Form(
                 key: _formKey,
                 child: ListView(
@@ -259,7 +291,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you need:",
                         style: TextStyle(
-                            color: Colors.white60, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -280,7 +312,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Current Location',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -302,7 +334,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Required Service',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -327,7 +359,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -336,7 +368,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you will provide in return:",
                         style: TextStyle(
-                            color: Colors.white60, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -357,7 +389,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Return Service',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -382,7 +414,7 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),

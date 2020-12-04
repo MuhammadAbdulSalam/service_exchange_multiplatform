@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/animation.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ui/homepage/LandingActivity.dart';
 import 'ui/loginviews/LoginActivity.dart';
@@ -35,6 +36,16 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   startTime() async {
     var _duration = new Duration(seconds: 3);
     return new Timer(_duration, navigationPage);
+  }
+
+
+  void setUserTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      Constants.IS_THEME_DARK = await prefs.getBool(Constants.COLOR_THEME) ?? true;
+    }catch(Exception){
+    }
+
   }
 
   void navigationPage() {
@@ -126,6 +137,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIOverlays([]);
+
+    setUserTheme();
 
     _backgroundController = AnimationController(
       duration: const Duration(seconds: 3),
