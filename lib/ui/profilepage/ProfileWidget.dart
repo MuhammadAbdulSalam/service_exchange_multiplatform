@@ -56,40 +56,40 @@ class _ProfileWidget extends State<ProfileWidget>
           ProfileInfoWidget(false),
         ],
       ),
-      floatingActionButton: FlatButton(
-          child: Container(
-            width: 70,
-            height: 35,
-            child: Card(
-              color: Colors.blueAccent,
-              elevation: 10,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(17, 5, 7, 7),
-                child: Visibility(
-                  child: Text(getText(tabIndex),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal),),
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  visible: true,
-                ),
-              ),
-            ),
-          ),
-
-          onPressed: () {
-            setState(() {
-              if(tabIndex == infoIndex){
-                tabIndex = editIndex;
-              }
-              else {
-                tabIndex = infoIndex;
-              }
-              _tabController.animateTo(tabIndex);
-            });
-          }),
+      // floatingActionButton: FlatButton(
+      //     child: Container(
+      //       width: 70,
+      //       height: 35,
+      //       child: Card(
+      //         color: Colors.blueAccent,
+      //         elevation: 10,
+      //         child: Container(
+      //           padding: EdgeInsets.fromLTRB(17, 5, 7, 7),
+      //           child: Visibility(
+      //             child: Text(getText(tabIndex),
+      //               style: TextStyle(
+      //                 color: Colors.white,
+      //                 fontWeight: FontWeight.normal),),
+      //             maintainSize: true,
+      //             maintainAnimation: true,
+      //             maintainState: true,
+      //             visible: true,
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //
+      //     onPressed: () {
+      //       setState(() {
+      //         if(tabIndex == infoIndex){
+      //           tabIndex = editIndex;
+      //         }
+      //         else {
+      //           tabIndex = infoIndex;
+      //         }
+      //         _tabController.animateTo(tabIndex);
+      //       });
+      //     }),
     );
   }
 }

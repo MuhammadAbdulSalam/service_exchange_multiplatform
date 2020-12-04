@@ -42,7 +42,9 @@ class Constants {
   static Color THEME_CARD_COLOR = THEME_DEFAULT_BLACK;
   static Color THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
   static Color THEME_PROFILE_BACKGROUND = Colors.white;
-  static Color THEME_PROFILE_INFO_LABEL = Colors.black54;
+  static Color THEME_PROFILE_INFO_LABEL = Colors.black38;
+  static Color THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
+  static Color THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
 
 
   static void homeThemeLight() {
@@ -57,7 +59,9 @@ class Constants {
     THEME_CARD_COLOR = Colors.white;
     THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
     THEME_PROFILE_BACKGROUND = Colors.white;
-    THEME_PROFILE_INFO_LABEL = Colors.black54;
+    THEME_PROFILE_INFO_LABEL = Colors.black38;
+    THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
+    THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
   }
 
   static void homeThemeDark() {
@@ -72,8 +76,9 @@ class Constants {
     THEME_CARD_COLOR = Colors.black54;
     THEME_COMMENT_BACKGROUND = Colors.black54;
     THEME_PROFILE_BACKGROUND = THEME_LIGHT_BLACK;
-    THEME_PROFILE_INFO_LABEL = Colors.white54;
-
+    THEME_PROFILE_INFO_LABEL = Colors.grey;
+    THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.black54;
+    THEME_PROFILE_CONTAINERS_GRADIENT2 = Colors.black54;
   }
 
   static Color getContainerColor() {
