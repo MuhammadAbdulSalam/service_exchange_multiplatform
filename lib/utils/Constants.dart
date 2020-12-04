@@ -1,6 +1,16 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
+
+enum listType {
+  NEAR_ME,
+  MY_POSTS,
+  REFRESH,
+  FILER
+}
+
 
 class Constants {
   static const DEFAULT_BLUE = Color(0xFF6dc1c3);
@@ -14,6 +24,9 @@ class Constants {
   static bool IS_THEME_DARK = false;
   static Color THEME_DEFAULT_BLACK = Colors.black87;
   static Color THEME_DEFAULT_WHITE = Colors.white60;
+  static Color THEME_DEFAULT_FULL_WHITE = Colors.white;
+  static Color THEME_LIGHT_BLACK = Colors.black54;
+
   static Color THEME_DARK_TEXT = Colors.white;
 
   static Color THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_BLACK;
@@ -23,6 +36,16 @@ class Constants {
   static Color THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
   static Color THEME_LABEL_COLOR = THEME_DARK_TEXT;
   static Color THEME_POST_ADD_CONTAINER = THEME_DEFAULT_BLACK;
+  static Color THEME_WHITE_BACKGROUND_TEXT = THEME_DEFAULT_BLACK;
+  static Color THEME_SHADOW_COLOR = Colors.white;
+  static Color THEME_RECYCLER_BACKGROUND = THEME_DEFAULT_BLACK;
+  static Color THEME_CARD_COLOR = THEME_DEFAULT_BLACK;
+  static Color THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
+  static Color THEME_PROFILE_BACKGROUND = Colors.white;
+  static Color THEME_PROFILE_INFO_LABEL = Colors.black38;
+  static Color THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
+  static Color THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
+
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -31,6 +54,14 @@ class Constants {
     THEME_TEXT_BOX_COLOR = THEME_DEFAULT_WHITE;
     THEME_TEXT_HINT_COLOR = THEME_DEFAULT_BLACK;
     THEME_LABEL_COLOR = THEME_DEFAULT_BLACK;
+    THEME_SHADOW_COLOR = THEME_DEFAULT_BLACK;
+    THEME_RECYCLER_BACKGROUND = Color(0xE6FFFFFF);
+    THEME_CARD_COLOR = Colors.white;
+    THEME_COMMENT_BACKGROUND = Color(0x73D3D3D3);
+    THEME_PROFILE_BACKGROUND = Colors.white;
+    THEME_PROFILE_INFO_LABEL = Colors.black38;
+    THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
+    THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
   }
 
   static void homeThemeDark() {
@@ -40,16 +71,21 @@ class Constants {
     THEME_TEXT_BOX_COLOR = Colors.black54;
     THEME_TEXT_HINT_COLOR = THEME_DARK_TEXT;
     THEME_LABEL_COLOR = THEME_DARK_TEXT;
+    THEME_SHADOW_COLOR = Colors.black54;
+    THEME_RECYCLER_BACKGROUND = Color(0x40FFFFFF);
+    THEME_CARD_COLOR = Colors.black54;
+    THEME_COMMENT_BACKGROUND = Colors.black54;
+    THEME_PROFILE_BACKGROUND = THEME_LIGHT_BLACK;
+    THEME_PROFILE_INFO_LABEL = Colors.grey;
+    THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.black54;
+    THEME_PROFILE_CONTAINERS_GRADIENT2 = Colors.black54;
   }
 
-  static Color getContainerColor(){
-    if(IS_THEME_DARK)
-    {
+  static Color getContainerColor() {
+    if (IS_THEME_DARK) {
       return Colors.transparent;
-    }
-    else{
+    } else {
       return Colors.white;
-
     }
   }
 
@@ -66,6 +102,22 @@ class Constants {
   static var registration_Address = "";
 
   static const DEFAULT_BUTTON = Color(0xFF6dc1c3);
+
+  static int CURRENT_INDEX = 0;
+  static int HOME_INDEX = 0;
+  static int POSTS_INDEX = 1;
+  static int NEWADD_INDEX = 3;
+
+  static int NEAR_ME = 0;
+  static int MY_POSTS = 0;
+  static int REFRESH = 1;
+  static int FILTER = 3;
+
+
+
+  static List<UserDataModel> userList = [];
+
+
 
 // iPhone 6S
 // |_ [portrait]

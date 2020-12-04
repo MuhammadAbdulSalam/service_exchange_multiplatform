@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,7 +26,6 @@ class _PostNewAddState extends State<PostNewAdd> {
   Position _currentPosition;
   String currentLocation;
   Timer _timerDialog;
-
 
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
@@ -87,10 +87,11 @@ class _PostNewAddState extends State<PostNewAdd> {
     }
 
     if (index == TOOLBAR_MAGIC_INDEX) {
-
       final prefs = await SharedPreferences.getInstance();
-      String templateService = await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
-      String templateDescription = await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
+      String templateService =
+          await prefs.getString(Constants.TEMPLATE_SERVICE) ?? "";
+      String templateDescription =
+          await prefs.getString(Constants.TEMPLATE_DESCRIPTION) ?? "";
 
       if ((templateDescription == "default" && templateService == "default") ||
           (templateDescription == "" && templateService == "")) {
@@ -101,6 +102,16 @@ class _PostNewAddState extends State<PostNewAdd> {
         returnDescriptionController.text = templateDescription;
       }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // currentLocationController.dispose();
+    // requestedServiceController.dispose();
+    // requestedDescriptionController.dispose();
+    // returnServiceController.dispose();
+    // returnDescriptionController.dispose();
   }
 
   /// Show alert dialog
@@ -179,7 +190,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     return null;
   }
 
-  void showTimedDialog(){
+  void showTimedDialog() {
     showDialog(
         context: context,
         builder: (BuildContext builderContext) {
@@ -194,8 +205,7 @@ class _PostNewAddState extends State<PostNewAdd> {
               child: Text('Post Uploaded Successfully'),
             ),
           );
-        }
-    ).then((val){
+        }).then((val) {
       if (_timerDialog.isActive) {
         _timerDialog.cancel();
       }
@@ -205,16 +215,21 @@ class _PostNewAddState extends State<PostNewAdd> {
   Future<void> _handlePostAdds(BuildContext context) async {
     Dialoge.showLoadingDialog(context, _keyLoader); //invoking progreebar
 
+    final prefs = await SharedPreferences.getInstance();
+
     final Map<String, String> postHashMap = {
       'postTitle': requestedServiceController.text,
-      'description': requestedServiceController.text,
-      'returnService': requestedDescriptionController.text,
-      'returnDescription': returnServiceController.text,
+      'description': requestedDescriptionController.text,
+      'returnService': returnServiceController.text,
+      'returnDescription': returnDescriptionController.text,
       'latitude': _currentPosition.latitude.toString(),
       'longitude': _currentPosition.longitude.toString(),
       'offerStatus': "new",
       'dealMade': 'pending',
-      'dpUrl': "default"
+      'dpUrl': "default",
+      'userId': FirebaseAuth.instance.currentUser.uid.toString(),
+      'userName': Constants.userList[0].name
+
     };
 
     String postKey = Uuid().v4();
@@ -226,7 +241,7 @@ class _PostNewAddState extends State<PostNewAdd> {
       await FirebaseHelper.USER_DB
           .child(FirebaseAuth.instance.currentUser.uid)
           .child("posts")
-          .child("id")
+          .child(postKey)
           .set(postKey)
           .then((value) {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -242,6 +257,20 @@ class _PostNewAddState extends State<PostNewAdd> {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       showErrorDialog(context);
     });
+  }
+
+  String iconText(int index) {
+    switch (index) {
+      case 0:
+        return "clear";
+        break;
+      case 1:
+        return "get location";
+        break;
+      case 2:
+        return "template";
+        break;
+    }
   }
 
   @override
@@ -269,10 +298,19 @@ class _PostNewAddState extends State<PostNewAdd> {
                   child: GestureDetector(
                       onTap: () => {_topBarFunctions(context, index)},
                       child: Container(
-                        height: 30,
-                        child: Icon(
-                          icons[index],
-                          color: Colors.blue,
+                        child: Column(
+                          children: [
+                            Icon(
+                              icons[index],
+                              color: Colors.blue,
+                            ),
+                            Text(
+                              iconText(index),
+                              style: TextStyle(
+                                  color: Constants.THEME_DEFAULT_WHITE,
+                                  fontSize: 10),
+                            ),
+                          ],
                         ),
                       )),
                 ),
@@ -291,7 +329,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you need:",
                         style: TextStyle(
-                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -312,7 +351,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Current Location',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -334,7 +374,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Required Service',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -359,7 +400,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -368,7 +410,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                       child: Text(
                         "Please enter following details about service you will provide in return:",
                         style: TextStyle(
-                            color: Constants.THEME_LABEL_COLOR, fontWeight: FontWeight.bold),
+                            color: Constants.THEME_LABEL_COLOR,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
@@ -389,7 +432,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Return Service',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),
@@ -414,7 +458,8 @@ class _PostNewAddState extends State<PostNewAdd> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Description',
-                          labelStyle: TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
+                          labelStyle:
+                              TextStyle(color: Constants.THEME_TEXT_HINT_COLOR),
                         ),
                       ),
                     ),

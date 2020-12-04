@@ -1,63 +1,70 @@
 
+class PostList {
+  List<PostsModel> recipeList;
+  String key;
 
-class PostsModel{
+  PostList({this.recipeList, this.key});
 
-   String _userDpUrl;
-   String _userId;
-  String _longitude;
-  String _latitude;
-  String _requiredService;
-  String _requiredDescription;
-  String _returnService;
-  String _returnDescription;
-
-   String get userDpUrl => _userDpUrl;
-
-  set userDpUrl(String value) {
-    _userDpUrl = value;
+  factory PostList.fromJSON(Map<dynamic, dynamic> json, String key) {
+    return PostList(recipeList: parsePosts(json, key));
   }
 
-   String get userId => _userId;
+  static List<PostsModel> parsePosts(recipeJSON, key) {
+    var rList = recipeJSON['Posts'] as List;
+    List<PostsModel> recipeList =
+    rList.map((data) => PostsModel.fromJson(data, key)).toList();
+    return recipeList;
+  }
+}
 
-   String get returnDescription => _returnDescription;
 
-  set returnDescription(String value) {
-    _returnDescription = value;
+class PostsModel {
+  String postId;
+  String userDpUrl;
+  String userId;
+  String longitude;
+  String latitude;
+  String requiredService;
+  String requiredDescription;
+  String returnService;
+  String returnDescription;
+  String userName;
+
+
+  String get setPostId => postId;
+
+  set getPostId(String value) {
+    postId = value;
   }
 
-  String get returnService => _returnService;
+  PostsModel({
+      this.userDpUrl,
+      this.userId,
+      this.longitude,
+      this.latitude,
+      this.requiredService,
+      this.requiredDescription,
+      this.returnService,
+      this.returnDescription,
+  this.userName,
+  this.postId});
 
-  set returnService(String value) {
-    _returnService = value;
+  factory PostsModel.fromJson(Map<dynamic, dynamic> parsedJson, String postID) {
+
+    return PostsModel(
+      userDpUrl: parsedJson['dpUrl'],
+        userName: parsedJson['userName'],
+        userId: parsedJson['postTitle'],
+      longitude: parsedJson['longitude'],
+      latitude: parsedJson['latitude'],
+      requiredService: parsedJson['postTitle'],
+      requiredDescription: parsedJson['description'],
+      returnService: parsedJson['returnService'],
+      returnDescription: parsedJson['returnDescription'],
+      postId: postID
+    );
+
   }
 
-  String get requiredDescription => _requiredDescription;
 
-  set requiredDescription(String value) {
-    _requiredDescription = value;
-  }
-
-  String get requiredService => _requiredService;
-
-  set requiredService(String value) {
-    _requiredService = value;
-  }
-
-  String get latitude => _latitude;
-
-  set latitude(String value) {
-    _latitude = value;
-  }
-
-  String get longitude => _longitude;
-
-  set longitude(String value) {
-    _longitude = value;
-  }
-
-  set userId(String value) {
-    _userId = value;
-  }
-
-   PostsModel();
 }

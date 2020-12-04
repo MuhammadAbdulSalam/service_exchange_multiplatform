@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../../Constants.dart';
 import 'flip_bar_element.dart';
 import 'flip_bar_item.dart';
 
@@ -72,6 +73,7 @@ class _FlipBoxBarState extends State<FlipBoxBar> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     _changeValue();
     return Container(
+      color: Constants.THEME_DEFAULT_BACKGROUND,
       height: findHeight(),
       child: Row(
         children: widget.items.map((item) {

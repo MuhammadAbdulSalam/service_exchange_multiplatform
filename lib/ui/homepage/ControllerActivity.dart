@@ -1,53 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
+import 'package:service_exchange_multiplatform/ui/profilepage/ProfileWidget.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
-import 'package:service_exchange_multiplatform/utils/CustomPagerPhysics.dart';
-import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
-import 'package:service_exchange_multiplatform/utils/uicomponents/SideNavigationBar.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/ProfileInfoWidget.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_bar_item.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/bottombar/flip_box_bar.dart';
 
-final icons = [
-  Icons.clear,
-  Icons.my_location,
-  Icons.auto_fix_high,
-];
+import 'LandingActivity.dart';
 
-class LandingActivity extends StatefulWidget {
+class ControllerActivity extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _LandingActivity();
-  }
+  _MyTabbedPageState createState() => new _MyTabbedPageState();
 }
 
-class _LandingActivity extends State<LandingActivity> {
+class _MyTabbedPageState extends State<ControllerActivity>
+    with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _mainPageKey = new GlobalKey<ScaffoldState>();
   int selectedIndex = 0;
-  PageController _pageController;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  void _changePage(int pageNum) {
-    setState(() {
-      selectedIndex = pageNum;
-      _pageController.animateToPage(
-        pageNum,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.fastLinearToSlowEaseIn,
-      );
-    });
-  }
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _tabController = new TabController(vsync: this, length: 4);
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
     super.dispose();
-    _pageController.dispose();
   }
 
   @override
@@ -55,7 +37,7 @@ class _LandingActivity extends State<LandingActivity> {
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
-        key: _scaffoldKey,
+        key: _mainPageKey,
         drawer: Drawer(
           // Add a ListView to the drawer. This ensures the user can scroll
           // through the options in the drawer if there isn't enough vertical
@@ -67,7 +49,7 @@ class _LandingActivity extends State<LandingActivity> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  child: Text('X exit'),
+                  child: ProfileInfoWidget(true),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -105,14 +87,36 @@ class _LandingActivity extends State<LandingActivity> {
                         activeColor: Colors.green,
                       ),
                     ]),
-                ListTile(
-                  title: Text('Item 1'),
-                  onTap: () {
-                    // Update the state of the app
-                    // ...
-                    // Then close the drawer
-                    Navigator.pop(context);
-                  },
+                Container(
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ProfileWidget()));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: Colors.blueAccent,
+                            size: 24.0,
+                          ),
+                          Text(
+                            "  Profile",
+                            style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 ListTile(
                   title: Text('Item 2'),
@@ -128,61 +132,49 @@ class _LandingActivity extends State<LandingActivity> {
           ),
         ),
         body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  leading: IconButton(
-                      icon: Icon(Icons.menu),
-                      onPressed: () {
-                        _scaffoldKey.currentState.openDrawer();
-                      }),
-                  expandedHeight: 70.0,
-                  floating: true,
-                  pinned: false,
-                  snap: true,
-                  elevation: 50,
-                  flexibleSpace: Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: <Color>[
-                          Constants.DEFAULT_ORANGE,
-                          Constants.DEFAULT_BLUE,
-                        ]
-                        )
-                    ),
-                    child: Container(
-                        child: FlexibleSpaceBar(
-                      centerTitle: true,
-                      background: Image.network(
-                        "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                        fit: BoxFit.cover,
+          headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                leading: IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      _mainPageKey.currentState.openDrawer();
+                    }),
+                expandedHeight: 0.0,
+                pinned: false,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                        Constants.DEFAULT_ORANGE,
+                        Constants.DEFAULT_BLUE,
+                      ])),
+                  child: Container(
+                      // child: FlexibleSpaceBar(
+                      //   centerTitle: true,
+                      //   background: Image.network(
+                      //     "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // )
                       ),
-                    )),
-                  ),
-                  bottom: TabBar(
-
-                  ),
                 ),
-              ];
-            },
-            body: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (int page) {
-                setState(() {
-                  selectedIndex = page;
-                });
-              },
-              controller: _pageController,
-              children: [
-                PlaceholderWidget(Colors.black87),
-                PlaceholderWidget(Constants.BLUE_SHADE_2),
-                PostsHomePage(),
-                PostNewAdd(),
-              ],
-            )),
+              ),
+            ];
+          },
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              PlaceholderWidget(Colors.black87),
+              PostsHomePage(),
+              PlaceholderWidget(Constants.BLUE_SHADE_2),
+              PostNewAdd(),
+            ],
+            controller: _tabController,
+          ),
+        ),
         bottomNavigationBar: FlipBoxBar(
           selectedIndex: selectedIndex,
           items: [
@@ -218,20 +210,7 @@ class _LandingActivity extends State<LandingActivity> {
   void onTabTapped(int index) {
     setState(() {
       selectedIndex = index;
-      _changePage(index);
+      _tabController.animateTo(selectedIndex);
     });
-  }
-}
-
-class PlaceholderWidget extends StatelessWidget {
-  final Color color;
-
-  PlaceholderWidget(this.color);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-    );
   }
 }

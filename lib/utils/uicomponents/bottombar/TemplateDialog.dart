@@ -69,7 +69,7 @@ class _TemplateDialog extends State<TemplateDialog>
                             child: Text(
                               "Please enter following details, all fields are necessary and cannot be left blank",
                               style: TextStyle(
-                                  color: Constants.THEME_DEFAULT_TEXT, fontWeight: FontWeight.bold),
+                                  color: Colors.white, fontWeight: FontWeight.bold),
                             ),
                           ),
 
@@ -81,11 +81,11 @@ class _TemplateDialog extends State<TemplateDialog>
                                 return validateForm(value);
                               },
                               style: TextStyle(
-                                  color: Constants.THEME_DEFAULT_TEXT),
+                                  color: Colors.white),
                               decoration: InputDecoration(
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color: Constants.THEME_DEFAULT_BORDER,
+                                      color: Colors.white,
                                       width: 1.0),
                                 ),
                                 border: OutlineInputBorder(),
@@ -110,7 +110,7 @@ class _TemplateDialog extends State<TemplateDialog>
                               maxLength: null,
                               maxLines: null,
                               style: TextStyle(
-                                  color: Constants.THEME_DEFAULT_TEXT),
+                                  color: Colors.white),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 labelText: '  Description',

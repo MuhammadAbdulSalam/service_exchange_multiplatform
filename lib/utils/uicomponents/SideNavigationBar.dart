@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart';
+import 'ProfileInfoWidget.dart';
 
 class SideNavigationBar extends StatefulWidget {
   @override
@@ -27,7 +28,6 @@ class _SideNavigationBar extends State<SideNavigationBar> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('X exit'),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -36,6 +36,8 @@ class _SideNavigationBar extends State<SideNavigationBar> {
                     Constants.DEFAULT_ORANGE,
                     Constants.DEFAULT_BLUE,
                   ])),
+              child: ProfileInfoWidget(true),
+
             ),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
               Text(
@@ -51,9 +53,11 @@ class _SideNavigationBar extends State<SideNavigationBar> {
                     if (value == true) {
                       Constants.homeThemeDark();
                       Constants.IS_THEME_DARK = true;
+                      setDark(true);
                     } else {
                       Constants.homeThemeLight();
                       Constants.IS_THEME_DARK = false;
+                      setDark(false);
                     }
                   });
                 },

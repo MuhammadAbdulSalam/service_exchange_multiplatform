@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:service_exchange_multiplatform/ui/homepage/ControllerActivity.dart';
 import 'package:service_exchange_multiplatform/ui/homepage/LandingActivity.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 
@@ -79,16 +81,20 @@ class _LoginState extends State<LoginActivity> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      LandingActivity()),
+                      ControllerActivity()),
               ModalRoute.withName("/Home"));
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showAlertDialog(context,
               "No user found with this email, please check your email and try again");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+              .pop();
         } else if (e.code == 'wrong-password') {
           showAlertDialog(context,
               "Password is wrong, Please check and enter password again");
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+              .pop();
         }
       }
 
