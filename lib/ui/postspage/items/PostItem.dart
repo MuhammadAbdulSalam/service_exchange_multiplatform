@@ -11,25 +11,21 @@ class PostItem extends StatelessWidget {
 
   PostItem(this.snapshot, this.postIndex, this.isCommentItem);
 
-  List<IconData>  getIconList(){
-    if(isCommentItem){
+  List<IconData> getIconList() {
+    if (isCommentItem) {
       return [Icons.post_add];
-  }
-    else{
-     return [
+    } else {
+      return [
         Icons.comment_outlined,
         Icons.post_add,
       ];
     }
   }
 
-
-
   String buttonText(int index) {
-    if(isCommentItem){
+    if (isCommentItem) {
       return "Make Offer";
-    }
-    else{
+    } else {
       switch (index) {
         case 0:
           return " Comment";
@@ -39,12 +35,18 @@ class PostItem extends StatelessWidget {
           break;
       }
     }
+  }
 
+  String getUsrDpUrl(String text) {
+    if (text == "default") {
+      return "https://www.woolha.com/media/2019/06/buneary.jpg";
+    } else {
+      return text;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Constants.THEME_CARD_COLOR,
       // shadowColor: Constants.THEME_SHADOW_COLOR,
@@ -68,8 +70,9 @@ class PostItem extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   image: new DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: new NetworkImage(
-                                          "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+                                      image: new NetworkImage(getUsrDpUrl(
+                                          snapshot
+                                              .data[postIndex].userDpUrl))))),
                         ],
                       ),
 
@@ -225,7 +228,7 @@ class PostItem extends StatelessWidget {
                   ),
                   child: Row(
                     children: List.generate(
-                     getIconList().length,
+                      getIconList().length,
                       (index) => Expanded(
                         child: GestureDetector(
                             onTap: () => {
@@ -269,5 +272,3 @@ class PostItem extends StatelessWidget {
     );
   }
 }
-
-

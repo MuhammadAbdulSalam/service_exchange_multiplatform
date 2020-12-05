@@ -118,6 +118,16 @@ class Constants {
   static List<UserDataModel> userList = [];
 
 
+  static String  getImageUrl(){
+    if(userList[0].dpUrl == "default")
+    {
+      return  "https://www.woolha.com/media/2019/06/buneary.jpg";
+    }
+    else{
+      return userList[0].dpUrl;
+    }
+  }
+
 
 // iPhone 6S
 // |_ [portrait]

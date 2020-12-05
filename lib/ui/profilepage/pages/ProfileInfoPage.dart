@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
+import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/ProfileInfoWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class ProfileInfoPage extends StatefulWidget {
   @override
@@ -13,6 +19,42 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
   String templateService = "";
   String templateDescription = "";
   double opacity = 1.0;
+
+  final picker = ImagePicker();
+  BuildContext mContext;
+  String dpUrl;
+
+  Future<void> pickImage() async {
+    //Get the file from the image picker and store it
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    File _userDp = File(pickedFile.path);
+
+    String imageKey = Uuid().v4();
+
+    //Create a reference to the location you want to upload to in firebase
+    Reference reference =
+        FirebaseStorage.instance.ref().child("profile_image/" + imageKey);
+
+    //Upload the file to firebase
+    UploadTask uploadTask = reference.putFile(_userDp);
+
+    // Waits till the file is uploaded then stores the download url
+    await uploadTask.snapshotEvents.listen((event) async {
+      event.ref.getDownloadURL().then((value) async {
+        dpUrl = value.toString();
+        await FirebaseHelper.USER_DB
+            .child(FirebaseAuth.instance.currentUser.uid)
+            .child("dpUrl")
+            .set(dpUrl)
+            .then((value) {
+          Constants.userList[0].dpUrl = dpUrl;
+          setState(() {
+            Constants.userList[0].dpUrl = dpUrl;
+          });
+        });
+      });
+    });
+  }
 
   _ProfileInfoPage() {
     getDescription().then((value) => setState(() {
@@ -83,30 +125,76 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
             ),
           ],
         ),
-        Container(
-          width: 100,
-          height: 100,
-          child: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              Container(
-                decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: new DecorationImage(
-                        fit: BoxFit.cover,
-                        image: new NetworkImage(
-                            "https://www.woolha.com/media/2019/06/buneary.jpg"))),
+        Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              width: 130,
+              height: 130,
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  Container(
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: Constants.userList[0].dpUrl != "default"
+                          ? Image.network(
+                              Constants.userList[0].dpUrl.toString(),
+                              width: 130,
+                              height: 130,
+                              fit: BoxFit.cover)
+                          : new Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: <Color>[
+                                    Constants
+                                        .THEME_PROFILE_CONTAINERS_GRADIENT1,
+                                    Constants
+                                        .THEME_PROFILE_CONTAINERS_GRADIENT2,
+                                  ])),
+                              child: IconTheme(
+                                data: new IconThemeData(color: Colors.white),
+                                child: new Icon(
+                                  Icons.person_add_alt,
+                                  size: 40,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: new BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ],
               ),
-              Container(
-                width: 10,
-                height: 10,
-                decoration: new BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
+            ),
+            Container(
+              width: 40,
+              height: 40,
+              child: FlatButton(
+                onPressed: () {
+                  pickImage();
+                },
+                child: Container(
+                  child: new IconTheme(
+                    data: new IconThemeData(color: Colors.blueAccent),
+                    child: new Icon(Icons.edit),
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         Column(
           children: [
@@ -150,7 +238,6 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
         children: [
           Container(
             padding: EdgeInsets.fromLTRB(0, 6, 0, 0),
-
             child: Text(
               label,
               style: TextStyle(
@@ -239,6 +326,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    mContext = context;
     return Scaffold(
       body: Stack(children: <Widget>[
         new Container(

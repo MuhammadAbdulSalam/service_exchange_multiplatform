@@ -39,6 +39,8 @@ class ProfileInfoWidget extends StatelessWidget {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -57,7 +59,7 @@ class ProfileInfoWidget extends StatelessWidget {
                   image: new DecorationImage(
                       fit: BoxFit.cover,
                       image: new NetworkImage(
-                          "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+                          Constants.getImageUrl())))),
           Container(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
             child: Column(
