@@ -226,9 +226,9 @@ class _PostNewAddState extends State<PostNewAdd> {
       'longitude': _currentPosition.longitude.toString(),
       'offerStatus': "new",
       'dealMade': 'pending',
-      'dpUrl': "default",
+      'dpUrl': Constants.userList[0].dpUrl.toString(),
       'userId': FirebaseAuth.instance.currentUser.uid.toString(),
-      'userName': Constants.userList[0].name
+      'userName': Constants.userList[0].name,
 
     };
 

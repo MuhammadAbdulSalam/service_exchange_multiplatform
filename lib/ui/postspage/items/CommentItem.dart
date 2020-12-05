@@ -36,8 +36,11 @@ class CommentItem extends StatelessWidget {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                                 fit: BoxFit.cover,
-                                image: new NetworkImage(
-                                    "https://www.woolha.com/media/2019/06/buneary.jpg")))),
+                                image: new NetworkImage(snapshot
+                                            .value["userDpUrl"] ==
+                                        "default"
+                                    ? "https://www.woolha.com/media/2019/06/buneary.jpg"
+                                    : snapshot.value["userDpUrl"].toString())))),
                   ],
                 ),
 
@@ -48,7 +51,6 @@ class CommentItem extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Constants.THEME_COMMENT_BACKGROUND,
-
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -66,16 +68,14 @@ class CommentItem extends StatelessWidget {
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-
                             child: Text(
                               snapshot.value["comment"],
                               textAlign: TextAlign.left,
                               maxLines: 5,
                               style:
-                              TextStyle(color: Constants.THEME_LABEL_COLOR),
+                                  TextStyle(color: Constants.THEME_LABEL_COLOR),
                             ),
                           )
-                         
                         ],
                       )),
                 )

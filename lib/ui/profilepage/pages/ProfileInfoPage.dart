@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
+import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/ProfileInfoWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -19,6 +20,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
   String templateService = "";
   String templateDescription = "";
   double opacity = 1.0;
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   final picker = ImagePicker();
   BuildContext mContext;
@@ -27,6 +29,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
   Future<void> pickImage() async {
     //Get the file from the image picker and store it
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
     File _userDp = File(pickedFile.path);
 
     String imageKey = Uuid().v4();
@@ -37,6 +40,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
 
     //Upload the file to firebase
     UploadTask uploadTask = reference.putFile(_userDp);
+    var postKey = "";
 
     // Waits till the file is uploaded then stores the download url
     await uploadTask.snapshotEvents.listen((event) async {
@@ -49,17 +53,30 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
             .then((value) async {
           setState(() {
             Constants.userList[0].dpUrl = dpUrl;
+
           });
           await FirebaseHelper.USER_DB
               .child(FirebaseAuth.instance.currentUser.uid)
               .child("posts")
               .onChildAdded
               .forEach((element) {
+                postKey = element.snapshot.key.toString();
             FirebaseHelper.POST_DB
                 .child(element.snapshot.key.toString())
                 .child("dpUrl")
                 .set(dpUrl)
-                .catchError((onError) {});
+                .then((value) {
+              FirebaseHelper.POST_DB.child(postKey).child("Comments").onChildAdded.forEach((element) {
+
+                if(element.snapshot.value["userId"] == FirebaseAuth.instance.currentUser.uid.toString())
+                  {
+                    FirebaseHelper.POST_DB.child(postKey).child("Comments").child(element.snapshot.key).child("userDpUrl").set(dpUrl);
+
+                  }
+              });
+            });
+          }).then((value) => {
+
           });
         });
       });
