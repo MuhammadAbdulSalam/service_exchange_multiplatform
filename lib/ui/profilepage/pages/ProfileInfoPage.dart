@@ -46,10 +46,20 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
             .child(FirebaseAuth.instance.currentUser.uid)
             .child("dpUrl")
             .set(dpUrl)
-            .then((value) {
-          Constants.userList[0].dpUrl = dpUrl;
+            .then((value) async {
           setState(() {
             Constants.userList[0].dpUrl = dpUrl;
+          });
+          await FirebaseHelper.USER_DB
+              .child(FirebaseAuth.instance.currentUser.uid)
+              .child("posts")
+              .onChildAdded
+              .forEach((element) {
+            FirebaseHelper.POST_DB
+                .child(element.snapshot.key.toString())
+                .child("dpUrl")
+                .set(dpUrl)
+                .catchError((onError) {});
           });
         });
       });
