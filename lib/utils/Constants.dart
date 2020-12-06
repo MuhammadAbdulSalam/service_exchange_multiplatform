@@ -45,6 +45,7 @@ class Constants {
   static Color THEME_PROFILE_INFO_LABEL = Colors.black38;
   static Color THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
   static Color THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
+  static Color THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
 
 
   static void homeThemeLight() {
@@ -62,6 +63,7 @@ class Constants {
     THEME_PROFILE_INFO_LABEL = Colors.black38;
     THEME_PROFILE_CONTAINERS_GRADIENT1 = DEFAULT_ORANGE;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
+    THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
   }
 
   static void homeThemeDark() {
@@ -79,6 +81,8 @@ class Constants {
     THEME_PROFILE_INFO_LABEL = Colors.grey;
     THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.black54;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = Colors.black54;
+    THEME_OFFER_TOOLBAR_COLOR = Colors.black54;
+
   }
 
   static Color getContainerColor() {

@@ -90,7 +90,7 @@ class PostComments extends StatelessWidget {
           child: ListView(
             controller: _scrollController,
             children: <Widget>[
-              PostItem(postSnapShot, index, true),
+              PostItem(postSnapShot, index, true, false),
               Container(
                 child: new FirebaseAnimatedList(
                     shrinkWrap: true,

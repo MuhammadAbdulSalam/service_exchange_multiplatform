@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:service_exchange_multiplatform/main.dart';
+import 'package:service_exchange_multiplatform/ui/loginviews/LoginActivity.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/ui/profilepage/ProfileWidget.dart';
@@ -108,6 +111,40 @@ class _MyTabbedPageState extends State<ControllerActivity>
                           ),
                           Text(
                             "  Profile",
+                            style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                      FirebaseAuth.instance.signOut();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SplashScreen()),
+                          ModalRoute.withName("/Home"));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.blueAccent,
+                            size: 24.0,
+                          ),
+                          Text(
+                            "  Logout",
                             style: TextStyle(
                                 color: Constants.THEME_LABEL_COLOR,
                                 fontWeight: FontWeight.bold),

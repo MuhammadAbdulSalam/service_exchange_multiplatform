@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
-import '../../utils/FirebaseCallHelper.dart';
-import 'items/PostItem.dart';
+import '../../../utils/FirebaseCallHelper.dart';
+import 'PostItem.dart';
 
 
 
@@ -43,7 +43,7 @@ class PostsItemsList extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: PostItem(snapshot, index, false)
+                    child: PostItem(snapshot, index, false, false)
                   );
                 },
               );

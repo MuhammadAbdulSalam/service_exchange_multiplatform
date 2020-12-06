@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:service_exchange_multiplatform/ui/postspage/PostItemsList.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/items/PostItemsList.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
 import '../../utils/FirebaseCallHelper.dart';
@@ -18,6 +18,15 @@ class PostsHomePage extends StatefulWidget {
 
 class _PostsHomePage extends State<PostsHomePage> {
   listType listTypeToGet = listType.NEAR_ME;
+  int selectedIconIndex = 0;
+
+  Color getColor(int selectedIndex, int index) {
+    if (selectedIconIndex == index && index != 2) {
+      return Colors.pinkAccent;
+    } else {
+      return Colors.blueAccent;
+    }
+  }
 
   String iconText(int index) {
     switch (index) {
@@ -59,14 +68,22 @@ class _PostsHomePage extends State<PostsHomePage> {
                   child: GestureDetector(
                       onTap: () => {
                             setState(() {
-                            switch(index)
-                            {
-                              case 0: listTypeToGet = listType.NEAR_ME; break;
-                              case 1: listTypeToGet = listType.MY_POSTS; break;
-                              case 2: listTypeToGet = listTypeToGet; break;
-                              case 3: listTypeToGet = listType.FILER; break;
-                            }
-
+                              switch (index) {
+                                case 0:
+                                  listTypeToGet = listType.NEAR_ME;
+                                  break;
+                                case 1:
+                                  listTypeToGet = listType.MY_POSTS;
+                                  break;
+                                case 2:
+                                  listTypeToGet = listTypeToGet;
+                                  index = selectedIconIndex;
+                                  break;
+                                case 3:
+                                  listTypeToGet = listType.FILER;
+                                  break;
+                              }
+                              selectedIconIndex = index;
                             })
                           },
                       child: Container(
@@ -74,7 +91,7 @@ class _PostsHomePage extends State<PostsHomePage> {
                           children: [
                             Icon(
                               icons[index],
-                              color: Colors.blue,
+                              color: getColor(selectedIconIndex, index),
                             ),
                             Text(
                               iconText(index),
@@ -106,4 +123,3 @@ class _PostsHomePage extends State<PostsHomePage> {
     super.setState(fn);
   }
 }
-

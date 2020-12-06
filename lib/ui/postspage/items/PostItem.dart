@@ -2,19 +2,25 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostComments.dart';
+import 'package:service_exchange_multiplatform/ui/postspage/PostOfferPage.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 
 class PostItem extends StatelessWidget {
   AsyncSnapshot snapshot;
   int postIndex;
   bool isCommentItem;
+  bool isMakeOfferItem;
 
-  PostItem(this.snapshot, this.postIndex, this.isCommentItem);
+  PostItem(this.snapshot, this.postIndex, this.isCommentItem, this.isMakeOfferItem);
 
   List<IconData> getIconList() {
     if (isCommentItem) {
       return [Icons.post_add];
-    } else {
+    }
+    else if(isMakeOfferItem){
+      return [Icons.post_add];
+    }
+    else {
       return [
         Icons.comment_outlined,
         Icons.post_add,
@@ -231,7 +237,8 @@ class PostItem extends StatelessWidget {
                       getIconList().length,
                       (index) => Expanded(
                         child: GestureDetector(
-                            onTap: () => {
+                            onTap: ()  {
+
                                   if (index == 0 && !isCommentItem)
                                     {
                                       Navigator.push(
@@ -239,8 +246,18 @@ class PostItem extends StatelessWidget {
                                           MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   PostComments(
-                                                      snapshot, postIndex))),
+                                                      snapshot, postIndex)));
                                     }
+
+                                  else if(index == 1 && !isMakeOfferItem){
+                                    print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;>>>>>>>>>" );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                PostOffersPage(
+                                                    snapshot, postIndex)));
+                                  }
                                 },
                             child: Container(
                               child: Row(

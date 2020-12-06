@@ -26,6 +26,7 @@ class _PostNewAddState extends State<PostNewAdd> {
   Position _currentPosition;
   String currentLocation;
   Timer _timerDialog;
+  int selectedIconIndex = 0;
 
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
@@ -76,6 +77,14 @@ class _PostNewAddState extends State<PostNewAdd> {
     requestedDescriptionController.text = "";
     returnServiceController.text = "";
     returnDescriptionController.text = "";
+  }
+
+  Color getColor(int selectedIndex, int index) {
+    if (selectedIconIndex == index) {
+      return Colors.pinkAccent;
+    } else {
+      return Colors.blueAccent;
+    }
   }
 
   Future<void> _topBarFunctions(BuildContext context, int index) async {
@@ -229,7 +238,6 @@ class _PostNewAddState extends State<PostNewAdd> {
       'dpUrl': Constants.userList[0].dpUrl.toString(),
       'userId': FirebaseAuth.instance.currentUser.uid.toString(),
       'userName': Constants.userList[0].name,
-
     };
 
     String postKey = Uuid().v4();
@@ -296,13 +304,20 @@ class _PostNewAddState extends State<PostNewAdd> {
                 icons.length,
                 (index) => Expanded(
                   child: GestureDetector(
-                      onTap: () => {_topBarFunctions(context, index)},
+                      onTap: () {
+                        setState(() {
+                          selectedIconIndex = index;
+
+                          _topBarFunctions(context, index);
+                        });
+
+                      },
                       child: Container(
                         child: Column(
                           children: [
                             Icon(
                               icons[index],
-                              color: Colors.blue,
+                              color: getColor(selectedIconIndex, index),
                             ),
                             Text(
                               iconText(index),
