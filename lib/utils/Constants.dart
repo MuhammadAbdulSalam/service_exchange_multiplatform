@@ -117,6 +117,8 @@ class Constants {
   static int REFRESH = 1;
   static int FILTER = 3;
 
+  static bool FIRST_START_POSTPAGE = true;
+
 
 
   static List<UserDataModel> userList = [];

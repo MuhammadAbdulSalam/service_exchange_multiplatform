@@ -92,6 +92,9 @@ class PostItem extends StatelessWidget {
 
   Color tagColor(String value) {
     if (value == "yes") {
+      if(Constants.IS_THEME_DARK){
+        return Colors.white;
+      }
       return Colors.lightGreen;
     } else {
       return Colors.redAccent;

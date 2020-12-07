@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
@@ -248,7 +249,8 @@ class _PostNewAddState extends State<PostNewAdd> {
 
     };
 
-    String postKey = Uuid().v4();
+    String postKey =  FirebaseHelper.POST_DB.push().key.toString();
+
 
     await FirebaseHelper.POST_DB
         .child(postKey)

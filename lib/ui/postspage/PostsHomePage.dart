@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/items/PostItemsList.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
@@ -44,11 +46,41 @@ class _PostsHomePage extends State<PostsHomePage> {
         break;
     }
   }
+  Timer timer;
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      listTypeToGet = listType.NEAR_ME;
+    });
+
+    if (Constants.FIRST_START_POSTPAGE) {
+       timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+        timer.cancel();
+        t.cancel();
+
+        setState(() {
+          Constants.FIRST_START_POSTPAGE = false;
+        });
+      });
+    }
+  }
+
+  @override
+  void setState(fn) {
+    super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
     // var futureBuilder =
-
     return Container(
         color: Constants.THEME_DEFAULT_BLACK,
         child: SafeArea(
@@ -116,10 +148,5 @@ class _PostsHomePage extends State<PostsHomePage> {
             ],
           )),
         ])));
-  }
-
-  @override
-  void setState(fn) {
-    super.setState(fn);
   }
 }

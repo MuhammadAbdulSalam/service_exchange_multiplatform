@@ -15,6 +15,18 @@ class PostsItemsList extends StatelessWidget {
   FirebaseCallHelper firebasePostCall = FirebaseCallHelper();
 
 
+
+  int getReverseNumbers(int listIndex, int snapshotLength){
+
+    if(listIndex == 0){
+      listIndex = snapshotLength-1;
+    }
+    else{
+      listIndex = snapshotLength - listIndex -1 ;
+    }
+    return listIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder(
@@ -42,8 +54,8 @@ class PostsItemsList extends StatelessWidget {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: PostItem(snapshot, index, false, false)
+                      padding: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      child: PostItem(snapshot, getReverseNumbers(index, snapshot.data.length), false, false)
                   );
                 },
               );
@@ -52,3 +64,4 @@ class PostsItemsList extends StatelessWidget {
     );
   }
 }
+
