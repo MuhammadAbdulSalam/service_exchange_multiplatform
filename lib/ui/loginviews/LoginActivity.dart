@@ -6,6 +6,7 @@ import 'package:service_exchange_multiplatform/ui/homepage/ControllerActivity.da
 import 'package:service_exchange_multiplatform/ui/homepage/LandingActivity.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
+import 'package:service_exchange_multiplatform/utils/FirebaseCallHelper.dart';
 import 'package:service_exchange_multiplatform/utils/uicomponents/Dialoge.dart';
 
 import 'Register.dart';
@@ -74,6 +75,15 @@ class _LoginState extends State<LoginActivity> {
                 .replaceAll(" ", ""));
 
         if (userCredential.user.uid != null) {
+
+
+          FirebaseCallHelper firebaseCallHelper = FirebaseCallHelper();
+
+          if (FirebaseAuth.instance.currentUser != null) {
+            firebaseCallHelper.getUserList().then((value) {
+              Constants.userList = value;
+            });
+          }
 
           Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 

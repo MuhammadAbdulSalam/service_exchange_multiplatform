@@ -27,6 +27,10 @@ class _PostNewAddState extends State<PostNewAdd> {
   String currentLocation;
   Timer _timerDialog;
   int selectedIconIndex = 0;
+  bool cashCompensation = false;
+  bool involvesTravel = false;
+  bool canTravel = false;
+
 
   final currentLocationController = TextEditingController();
   final requestedServiceController = TextEditingController();
@@ -238,6 +242,10 @@ class _PostNewAddState extends State<PostNewAdd> {
       'dpUrl': Constants.userList[0].dpUrl.toString(),
       'userId': FirebaseAuth.instance.currentUser.uid.toString(),
       'userName': Constants.userList[0].name,
+      'cashComp': cashCompensation == true ? "yes" : "no",
+      'invTravel': involvesTravel == true ? "yes" : "no",
+      'canTravel': canTravel == true ? "yes" : "no"
+
     };
 
     String postKey = Uuid().v4();
@@ -479,8 +487,93 @@ class _PostNewAddState extends State<PostNewAdd> {
                       ),
                     ),
                     Container(
-                        height: 50,
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(width: 1.0, color: Colors.grey),
+                        ),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            new Text(
+                              "Cash Compensation",
+                              style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                              ),
+                            ),
+                            Switch(
+                              value: cashCompensation,
+                              onChanged: (value) {
+                                setState(() {
+                                  cashCompensation = value;
+                                });
+                              },
+                              activeTrackColor: Colors.lightGreenAccent,
+                              activeColor: Colors.green,
+                            ),
+                          ]),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(width: 1.0, color: Colors.grey),
+                        ),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            new Text(
+                              "Involves Travel",
+                              style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                              ),
+                            ),
+                            Switch(
+                              value: involvesTravel,
+                              onChanged: (value) {
+                                setState(() {
+                                  involvesTravel = value;
+
+                                });
+                              },
+                              activeTrackColor: Colors.lightGreenAccent,
+                              activeColor: Colors.green,
+                            ),
+                          ]),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(width: 1.0, color: Colors.grey),
+                        ),
+                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            new Text(
+                              "Can Travel",
+                              style: TextStyle(
+                                color: Constants.THEME_LABEL_COLOR,
+                              ),
+                            ),
+                            Switch(
+                              value: canTravel,
+                              onChanged: (value) {
+                                setState(() {
+                                  canTravel = value;
+                                });
+                              },
+                              activeTrackColor: Colors.lightGreenAccent,
+                              activeColor: Colors.green,
+                            ),
+                          ]),
+                    ),
+                    Container(
+                        height: 80,
+                        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                         child: RaisedButton(
                           textColor: Colors.white,
                           color: Colors.blueAccent,

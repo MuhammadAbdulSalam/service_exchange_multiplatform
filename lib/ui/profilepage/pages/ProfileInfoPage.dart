@@ -278,7 +278,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
             child: Text(
               value,
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+                  TextStyle(color: Constants.THEME_DEFAULT_TEXT, fontWeight: FontWeight.normal),
             ),
           ),
         ],
@@ -295,7 +295,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: <Color>[
-              Constants.THEME_PROFILE_CONTAINERS_GRADIENT1,
+                  Constants.THEME_PROFILE_CONTAINERS_GRADIENT1,
               Constants.THEME_PROFILE_CONTAINERS_GRADIENT2,
             ])),
         // elevation: 10,
@@ -329,8 +329,8 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: <Color>[
-              Constants.THEME_PROFILE_CONTAINERS_GRADIENT1,
-              Constants.THEME_PROFILE_CONTAINERS_GRADIENT2,
+                  Constants.THEME_PROFILE_CONTAINERS_GRADIENT1,
+                  Constants.THEME_PROFILE_CONTAINERS_GRADIENT2,
             ])),
         // elevation: 10,
         // shape: RoundedRectangleBorder(

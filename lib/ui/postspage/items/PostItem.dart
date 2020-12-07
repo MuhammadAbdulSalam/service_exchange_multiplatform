@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,32 @@ class PostItem extends StatelessWidget {
   bool isCommentItem;
   bool isMakeOfferItem;
 
-  PostItem(this.snapshot, this.postIndex, this.isCommentItem, this.isMakeOfferItem);
+  PostItem(
+      this.snapshot, this.postIndex, this.isCommentItem, this.isMakeOfferItem);
 
   List<IconData> getIconList() {
     if (isCommentItem) {
-      return [Icons.post_add];
+      if(FirebaseAuth.instance.currentUser.uid.toString() == snapshot.data[postIndex].userId.toString())
+      {
+        return [Icons.close];
+      }
+      else{
+        return [Icons.post_add];
+      }
+
+    } else if (isMakeOfferItem) {
+
+        return [Icons.post_add];
     }
-    else if(isMakeOfferItem){
-      return [Icons.post_add];
+    else if(FirebaseAuth.instance.currentUser.uid.toString() == snapshot.data[postIndex].userId.toString())
+    {
+      return [
+        Icons.comment_outlined,
+        Icons.close,
+      ];
     }
+
+
     else {
       return [
         Icons.comment_outlined,
@@ -37,7 +55,13 @@ class PostItem extends StatelessWidget {
           return " Comment";
           break;
         case 1:
-          return " Offer";
+          if(FirebaseAuth.instance.currentUser.uid.toString() == snapshot.data[postIndex].userId.toString())
+            {
+              return " Delete";
+            }
+          else{
+            return " Offer";
+          }
           break;
       }
     }
@@ -48,6 +72,29 @@ class PostItem extends StatelessWidget {
       return "https://www.woolha.com/media/2019/06/buneary.jpg";
     } else {
       return text;
+    }
+  }
+
+  Color getButtonIconColor(int index){
+    if(index == 1 && FirebaseAuth.instance.currentUser.uid.toString() == snapshot.data[postIndex].userId.toString())
+      {
+        if(Constants.IS_THEME_DARK){
+          return Colors.white;
+
+        }
+        return Colors.black26;
+      }
+    else{
+      return Colors.blue;
+    }
+
+  }
+
+  Color tagColor(String value) {
+    if (value == "yes") {
+      return Colors.lightGreen;
+    } else {
+      return Colors.redAccent;
     }
   }
 
@@ -63,54 +110,104 @@ class PostItem extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  padding: new EdgeInsets.fromLTRB(10, 15, 0, 0),
+                  padding: new EdgeInsets.fromLTRB(10, 15, 10, 0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: new BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: new DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: new NetworkImage(getUsrDpUrl(
+                                                  snapshot
+                                                      .data[postIndex].userDpUrl))))),
+                                  Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: new BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                            ],
+                          ),
+
                           Container(
-                              width: 50,
-                              height: 50,
-                              decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: new DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: new NetworkImage(getUsrDpUrl(
-                                          snapshot
-                                              .data[postIndex].userDpUrl))))),
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data[postIndex].userName,
+                                    style: TextStyle(
+                                      color: Constants.THEME_LABEL_COLOR,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    snapshot.data[postIndex].returnService,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Constants.THEME_LABEL_COLOR),
+                                  ),
+                                  Text(
+                                    "x Miles",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Constants.THEME_LABEL_COLOR),
+                                  ),
+                                ],
+                              )),
+
                         ],
-                      ),
+                          ),
 
                       Container(
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                snapshot.data[postIndex].userName,
-                                style: TextStyle(
-                                  color: Constants.THEME_LABEL_COLOR,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: Colors.yellow,
                               ),
-                              Text(
-                                snapshot.data[postIndex].returnService,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Constants.THEME_LABEL_COLOR),
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: Colors.yellow,
+
                               ),
-                              Text(
-                                "x Miles",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Constants.THEME_LABEL_COLOR),
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: Colors.yellow,
+
                               ),
+                              Icon(
+                                Icons.star,
+                                size: 15,
+                                color: Colors.yellow,
+
+                              )
                             ],
-                          ))
+                          )),
 
                       // new Container(
                       //   child: Image.network(
@@ -129,7 +226,14 @@ class PostItem extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
                   child: Container(
-                    color: Colors.green,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: <Color>[
+                              Colors.orangeAccent,
+                              Constants.DEFAULT_BLUE,
+                            ])),
                     child: Container(
                         child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -167,7 +271,7 @@ class PostItem extends StatelessWidget {
                               snapshot.data[postIndex].requiredDescription,
                               textAlign: TextAlign.left,
                               style:
-                                  TextStyle(color: Constants.THEME_DARK_TEXT),
+                                  TextStyle(color: Constants.THEME_DEFAULT_TEXT),
                             ),
                           ),
                         ],
@@ -178,7 +282,15 @@ class PostItem extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                   child: Container(
-                    color: Colors.orange,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: <Color>[
+                              Constants.DEFAULT_BLUE,
+                              Colors.orangeAccent,
+
+                            ])),
                     child: Container(
                         child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -216,12 +328,71 @@ class PostItem extends StatelessWidget {
                               snapshot.data[postIndex].returnDescription,
                               textAlign: TextAlign.left,
                               style:
-                                  TextStyle(color: Constants.THEME_DARK_TEXT),
+                              TextStyle(color: Constants.THEME_DEFAULT_TEXT),
                             ),
                           ),
                         ],
                       ),
                     )),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.money,
+                            color: tagColor(snapshot.data[postIndex].cashComp),
+                            size: 20,
+                          ),
+                          Text(
+                            "Cash Compensation",
+                            style: TextStyle(
+                              color:
+                                  tagColor(snapshot.data[postIndex].cashComp),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.car_rental,
+                            color: tagColor(snapshot.data[postIndex].invTravel),
+                            size: 20,
+                          ),
+                          Text(
+                            "Involves Travel",
+                            style: TextStyle(
+                              color:
+                                  tagColor(snapshot.data[postIndex].invTravel),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.card_travel,
+                            color: tagColor(snapshot.data[postIndex].canTravel),
+                            size: 20,
+                          ),
+                          Text(
+                            "Can Travel",
+                            style: TextStyle(
+                              color:
+                                  tagColor(snapshot.data[postIndex].canTravel),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -237,28 +408,22 @@ class PostItem extends StatelessWidget {
                       getIconList().length,
                       (index) => Expanded(
                         child: GestureDetector(
-                            onTap: ()  {
-
-                                  if (index == 0 && !isCommentItem)
-                                    {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  PostComments(
-                                                      snapshot, postIndex)));
-                                    }
-
-                                  else if(index == 1 && !isMakeOfferItem){
-                                    print(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::;;>>>>>>>>>" );
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                PostOffersPage(
-                                                    snapshot, postIndex)));
-                                  }
-                                },
+                            onTap: () {
+                              if (index == 0 && !isCommentItem) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            PostComments(snapshot, postIndex)));
+                              } else if (index == 1 && !isMakeOfferItem && FirebaseAuth.instance.currentUser.uid.toString() != snapshot.data[postIndex].userId.toString()) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            PostOffersPage(
+                                                snapshot, postIndex)));
+                              }
+                            },
                             child: Container(
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -266,7 +431,7 @@ class PostItem extends StatelessWidget {
                                 children: [
                                   Icon(
                                     getIconList()[index],
-                                    color: Colors.blue,
+                                    color: getButtonIconColor(index),
                                   ),
                                   Text(
                                     buttonText(index),

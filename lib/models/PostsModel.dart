@@ -29,6 +29,9 @@ class PostsModel {
   String returnService;
   String returnDescription;
   String userName;
+  String cashComp;
+  String invTravel;
+  String canTravel;
 
 
   String get setPostId => postId;
@@ -46,6 +49,9 @@ class PostsModel {
       this.requiredDescription,
       this.returnService,
       this.returnDescription,
+    this.canTravel,
+    this.invTravel,
+    this.cashComp,
   this.userName,
   this.postId});
 
@@ -54,14 +60,18 @@ class PostsModel {
     return PostsModel(
       userDpUrl: parsedJson['dpUrl'],
         userName: parsedJson['userName'],
-        userId: parsedJson['postTitle'],
+        userId: parsedJson['userId'],
       longitude: parsedJson['longitude'],
       latitude: parsedJson['latitude'],
       requiredService: parsedJson['postTitle'],
       requiredDescription: parsedJson['description'],
       returnService: parsedJson['returnService'],
       returnDescription: parsedJson['returnDescription'],
-      postId: postID
+      canTravel: parsedJson['canTravel'],
+        cashComp: parsedJson['cashComp'],
+        invTravel: parsedJson['invTravel'],
+
+        postId: postID
     );
 
   }
