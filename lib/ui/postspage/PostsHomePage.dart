@@ -46,7 +46,9 @@ class _PostsHomePage extends State<PostsHomePage> {
         break;
     }
   }
+
   Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,7 @@ class _PostsHomePage extends State<PostsHomePage> {
     });
 
     if (Constants.FIRST_START_POSTPAGE) {
-       timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
         timer.cancel();
         t.cancel();
 

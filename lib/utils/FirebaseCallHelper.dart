@@ -11,7 +11,6 @@ class FirebaseCallHelper {
   Future<List<PostsModel>> getPostsList(listType typeOfList) async {
     List<PostsModel> postList = [];
 
-    print(":::::::::::::::Cccccccccccccccccccc::::::::::::::::::::::::");
     if (typeOfList == listType.NEAR_ME) {
       await FirebaseHelper.POST_DB.onChildAdded.listen((event) {
         postList.add(FirebaseHelper.getPostModel(event));
@@ -22,9 +21,6 @@ class FirebaseCallHelper {
           .equalTo(FirebaseAuth.instance.currentUser.uid.toString())
           .onChildAdded
           .listen((event) {
-
-        print(":::::::::::::::Cccccccccccccccccccc::::::::::::::::::::::::" + event.snapshot.key.toString());
-
         postList.add(FirebaseHelper.getPostModel(event));
       });
     }

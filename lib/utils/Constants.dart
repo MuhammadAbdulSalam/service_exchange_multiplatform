@@ -4,13 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
 
-enum listType {
-  NEAR_ME,
-  MY_POSTS,
-  REFRESH,
-  FILER
-}
-
+enum listType { NEAR_ME, MY_POSTS, REFRESH, FILER }
 
 class Constants {
   static const DEFAULT_BLUE = Color(0xFF6dc1c3);
@@ -46,7 +40,8 @@ class Constants {
   static Color THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.orangeAccent;
   static Color THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
   static Color THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
-
+  static Color POST_ITEM_GRADIENT1 = Color(0x80FFA500);
+  static Color POST_ITEM_GRADIENT2 = Color(0x806dc1c3);
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -64,6 +59,8 @@ class Constants {
     THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.orangeAccent;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
     THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
+    POST_ITEM_GRADIENT1 = Color(0x80FFA500);
+    POST_ITEM_GRADIENT2 = Color(0x806dc1c3);
   }
 
   static void homeThemeDark() {
@@ -82,7 +79,8 @@ class Constants {
     THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.black54;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = Colors.black54;
     THEME_OFFER_TOOLBAR_COLOR = Colors.black54;
-
+    POST_ITEM_GRADIENT1 = Colors.orangeAccent;
+    POST_ITEM_GRADIENT2 = DEFAULT_BLUE;
   }
 
   static Color getContainerColor() {
@@ -119,21 +117,15 @@ class Constants {
 
   static bool FIRST_START_POSTPAGE = true;
 
-
-
   static List<UserDataModel> userList = [];
 
-
-  static String  getImageUrl(){
-    if(userList[0].dpUrl == "default")
-    {
-      return  "https://www.woolha.com/media/2019/06/buneary.jpg";
-    }
-    else{
+  static String getImageUrl() {
+    if (userList[0].dpUrl == "default") {
+      return "https://www.woolha.com/media/2019/06/buneary.jpg";
+    } else {
       return userList[0].dpUrl;
     }
   }
-
 
 // iPhone 6S
 // |_ [portrait]
