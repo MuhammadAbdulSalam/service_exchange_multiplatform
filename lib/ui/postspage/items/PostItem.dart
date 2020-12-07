@@ -106,9 +106,7 @@ class PostItem extends StatelessWidget {
     return Container(
       color: Constants.THEME_CARD_COLOR,
       // shadowColor: Constants.THEME_SHADOW_COLOR,
-      child: Flexible(
-        fit: FlexFit.tight,
-        child: Container(
+       child: Container(
           child: Container(
             child: Column(
               children: [
@@ -453,7 +451,6 @@ class PostItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }
