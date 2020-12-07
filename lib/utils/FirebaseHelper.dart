@@ -8,6 +8,7 @@ class FirebaseHelper {
   // ignore: non_constant_identifier_names
   static final USER_DB = FirebaseDatabase.instance.reference().child('Users');
   static final POST_DB = FirebaseDatabase.instance.reference().child('Posts');
+  static final OFFER_DB = FirebaseDatabase.instance.reference().child('Offers');
 
   static DatabaseReference getCommentsDB(String postID){
 
