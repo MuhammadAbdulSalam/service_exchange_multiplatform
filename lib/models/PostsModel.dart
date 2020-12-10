@@ -33,6 +33,15 @@ class PostsModel {
   String invTravel;
   String canTravel;
   String offerKey;
+  int numberOfOffers;
+
+
+  int get setNumberOfOffers => numberOfOffers;
+
+  set getNumberOfOffers(int value) {
+    numberOfOffers = value;
+  }
+
 
   String get setOfferKey => offerKey;
 

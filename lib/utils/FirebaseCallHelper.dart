@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -28,7 +30,8 @@ class FirebaseCallHelper {
     return postList;
   }
 
-  Future<List<PostsModel>> getOffersPosts(OffersListType offersListType) async {
+  Future<List<PostsModel>> getOffersPosts(
+      OffersListType offersListType, HashMap<String, String> sentOffers) async {
     List<PostsModel> postList = [];
 
     if (offersListType == OffersListType.RECEIVED) {
@@ -38,30 +41,23 @@ class FirebaseCallHelper {
           .onChildAdded
           .listen((event) {
         if (event.snapshot.value['offers'] != null) {
-          postList.add(FirebaseHelper.getPostModel(event));
+
+          PostsModel postsModel = FirebaseHelper.getPostModel(event);
+          postsModel.numberOfOffers = event.snapshot.value['offers'].length;
+          postList.add(postsModel);
         }
       });
     } else if (offersListType == OffersListType.SENT) {
-      await FirebaseHelper.USER_DB
-          .child(FirebaseAuth.instance.currentUser.uid.toString())
-          .child('sentOffers')
-          .once()
-          .then((result) {
-        if (result.value != null) {
-          result.value.forEach((key, childSnapshot) {
-            FirebaseHelper.POST_DB
-                .orderByKey()
-                .equalTo(childSnapshot.toString())
-                .onChildAdded
-                .listen((event) {
-                  PostsModel postsModel = FirebaseHelper.getPostModel(event);
-                  postsModel.offerKey = key;
-                  postsModel.postId = event.snapshot.key;
-
-              postList.add(postsModel);
-            });
-          });
-        }
+      sentOffers.forEach((key, value) {
+        FirebaseHelper.POST_DB
+            .orderByKey()
+            .equalTo(value.toString())
+            .onChildAdded
+            .listen((event) {
+          PostsModel postsModel = FirebaseHelper.getPostModel(event);
+          postsModel.offerKey = key;
+          postList.add(postsModel);
+        });
       });
     }
 

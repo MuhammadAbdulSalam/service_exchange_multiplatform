@@ -9,29 +9,27 @@ import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 
 class OfferItem extends StatefulWidget {
   int postIndex;
-  int numberOfOffers;
   bool isSent;
   bool isReceived;
   var statusTextController = TextEditingController();
   AsyncSnapshot snapshot;
 
-  OfferItem(this.snapshot, this.postIndex, this.numberOfOffers, this.isReceived,
+  OfferItem(this.snapshot, this.postIndex, this.isReceived,
       this.isSent);
 
   @override
   _OfferItem createState() =>
-      _OfferItem(snapshot, postIndex, numberOfOffers, isReceived, isSent);
+      _OfferItem(snapshot, postIndex, isReceived, isSent);
 }
 
 class _OfferItem extends State<OfferItem> {
   AsyncSnapshot snapshot;
   int postIndex;
-  int numberOfOffers;
   bool isSent;
   bool isReceived;
   var statusTextController = TextEditingController();
 
-  _OfferItem(this.snapshot, this.postIndex, this.numberOfOffers,
+  _OfferItem(this.snapshot, this.postIndex,
       this.isReceived, this.isSent);
 
   List<IconData> getIconList() {
@@ -100,10 +98,10 @@ class _OfferItem extends State<OfferItem> {
   }
 
   String getNumberOfPosts() {
-    if (numberOfOffers < 10) {
-      return "0" + numberOfOffers.toString();
+    if (snapshot.data[postIndex].numberOfOffers < 10) {
+      return "0" + snapshot.data[postIndex].numberOfOffers.toString();
     } else {
-      return numberOfOffers.toString();
+      return snapshot.data[postIndex].numberOfOffers.toString();
     }
   }
 
@@ -185,7 +183,7 @@ class _OfferItem extends State<OfferItem> {
     return Column(
       children: [
         Container(
-          width: 80,
+          width: 90,
           height: 40,
           decoration: new BoxDecoration(
               shape: BoxShape.rectangle,

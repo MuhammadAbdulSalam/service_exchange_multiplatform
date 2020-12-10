@@ -1,3 +1,6 @@
+import 'dart:collection';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/items/PostItem.dart';
@@ -18,7 +21,6 @@ final topIcons = [
   Icons.send_outlined,
   Icons.refresh,
   Icons.filter_alt_rounded
-
 ];
 
 class _OffersMain extends State<OffersMain> {
@@ -26,7 +28,7 @@ class _OffersMain extends State<OffersMain> {
   int selectedIconIndex = 0;
   bool isOfferSent = false;
   bool isOfferReceived = true;
-
+  HashMap sentOffersHash = new HashMap<String, String>();
 
   String iconText(int index) {
     switch (index) {
@@ -42,7 +44,6 @@ class _OffersMain extends State<OffersMain> {
       case 3:
         return " Filter";
         break;
-
     }
   }
 
@@ -66,7 +67,8 @@ class _OffersMain extends State<OffersMain> {
   FutureBuilder getListView() {
     FirebaseCallHelper firebaseCallHelper = FirebaseCallHelper();
     return FutureBuilder(
-      future: firebaseCallHelper.getOffersPosts(listType), // async work
+      future: firebaseCallHelper.getOffersPosts(listType, sentOffersHash),
+      // async work
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -86,7 +88,6 @@ class _OffersMain extends State<OffersMain> {
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
             else {
-
               if (snapshot.data.length == 0) {
                 return Container(
                   color: Constants.THEME_DEFAULT_BACKGROUND,
@@ -114,7 +115,6 @@ class _OffersMain extends State<OffersMain> {
                   ),
                 );
               } else {
-
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
@@ -123,7 +123,8 @@ class _OffersMain extends State<OffersMain> {
                         child: OfferItem(
                             snapshot,
                             getReverseNumbers(index, snapshot.data.length),
-                            snapshot.data.length, isOfferReceived, isOfferSent));
+                            isOfferReceived,
+                            isOfferSent));
                   },
                 );
               }
@@ -165,6 +166,23 @@ class _OffersMain extends State<OffersMain> {
                                   listType = OffersListType.SENT;
                                   isOfferReceived = false;
                                   isOfferSent = true;
+
+                                  sentOffersHash = HashMap<String, String>();
+                                  FirebaseHelper.USER_DB
+                                      .child(FirebaseAuth
+                                          .instance.currentUser.uid
+                                          .toString())
+                                      .child("sentOffers")
+                                      .onChildAdded
+                                      .listen((event) {
+
+                                        setState(() {
+                                          sentOffersHash.putIfAbsent(
+                                              event.snapshot.key.toString(),
+                                                  () => event.snapshot.value.toString());
+                                        });
+
+                                  });
                                   break;
                                 // case 2:
                                 //   listTypeToGet = listTypeToGet;
