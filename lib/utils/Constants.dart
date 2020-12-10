@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
 
 enum listType { NEAR_ME, MY_POSTS, REFRESH, FILER }
+enum OffersListType { RECEIVED, SENT }
 
 class Constants {
   static const DEFAULT_BLUE = Color(0xFF6dc1c3);

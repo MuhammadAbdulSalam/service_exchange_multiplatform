@@ -32,6 +32,13 @@ class PostsModel {
   String cashComp;
   String invTravel;
   String canTravel;
+  String offerKey;
+
+  String get setOfferKey => offerKey;
+
+  set getOfferKey(String value) {
+    offerKey = value;
+  }
 
 
   String get setPostId => postId;

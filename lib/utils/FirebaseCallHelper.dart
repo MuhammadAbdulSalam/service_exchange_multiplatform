@@ -28,6 +28,46 @@ class FirebaseCallHelper {
     return postList;
   }
 
+  Future<List<PostsModel>> getOffersPosts(OffersListType offersListType) async {
+    List<PostsModel> postList = [];
+
+    if (offersListType == OffersListType.RECEIVED) {
+      await FirebaseHelper.POST_DB
+          .orderByChild('userId')
+          .equalTo(FirebaseAuth.instance.currentUser.uid.toString())
+          .onChildAdded
+          .listen((event) {
+        if (event.snapshot.value['offers'] != null) {
+          postList.add(FirebaseHelper.getPostModel(event));
+        }
+      });
+    } else if (offersListType == OffersListType.SENT) {
+      await FirebaseHelper.USER_DB
+          .child(FirebaseAuth.instance.currentUser.uid.toString())
+          .child('sentOffers')
+          .once()
+          .then((result) {
+        if (result.value != null) {
+          result.value.forEach((key, childSnapshot) {
+            FirebaseHelper.POST_DB
+                .orderByKey()
+                .equalTo(childSnapshot.toString())
+                .onChildAdded
+                .listen((event) {
+                  PostsModel postsModel = FirebaseHelper.getPostModel(event);
+                  postsModel.offerKey = key;
+                  postsModel.postId = event.snapshot.key;
+
+              postList.add(postsModel);
+            });
+          });
+        }
+      });
+    }
+
+    return postList;
+  }
+
   Future<List<UserDataModel>> getUserList() async {
     List<UserDataModel> userList = [];
 

@@ -123,13 +123,13 @@ class _PostOffersPage extends State<PostOffersPage> {
           .child(postSnapShot.data[index].postId.toString())
           .child("offers")
           .child(offerKey)
-          .set(offerKey)
+          .set(FirebaseAuth.instance.currentUser.uid.toString())
           .then((value) {
         FirebaseHelper.USER_DB
             .child(FirebaseAuth.instance.currentUser.uid.toString())
             .child("sentOffers")
             .child(offerKey)
-            .set(offerKey)
+            .set(postSnapShot.data[index].postId.toString())
             .then((value) {
           setState(() {
             isLoading = false;

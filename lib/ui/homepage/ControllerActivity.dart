@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:service_exchange_multiplatform/main.dart';
 import 'package:service_exchange_multiplatform/ui/loginviews/LoginActivity.dart';
 import 'package:service_exchange_multiplatform/ui/newadd/PostNewAdd.dart';
+import 'package:service_exchange_multiplatform/ui/pageoffers/OffersMain.dart';
 import 'package:service_exchange_multiplatform/ui/postspage/PostsHomePage.dart';
 import 'package:service_exchange_multiplatform/ui/profilepage/ProfileWidget.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
@@ -206,7 +207,7 @@ class _MyTabbedPageState extends State<ControllerActivity>
             children: <Widget>[
               PlaceholderWidget(Colors.black87),
               PostsHomePage(),
-              PlaceholderWidget(Constants.BLUE_SHADE_2),
+              OffersMain(),
               PostNewAdd(),
             ],
             controller: _tabController,
@@ -221,12 +222,12 @@ class _MyTabbedPageState extends State<ControllerActivity>
                 frontColor: Colors.blueAccent,
                 backColor: Colors.blue),
             FlipBarItem(
-                icon: Icon(Icons.bookmark),
+                icon: Icon(Icons.list),
                 text: Text("Posts"),
                 frontColor: Colors.orange,
                 backColor: Colors.orangeAccent),
             FlipBarItem(
-                icon: Icon(Icons.list),
+                icon: Icon(Icons.book_outlined),
                 text: Text("Offers"),
                 frontColor: Colors.purple,
                 backColor: Colors.purpleAccent),
