@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:service_exchange_multiplatform/ui/postspage/PostComments.dart';
-import 'package:service_exchange_multiplatform/ui/postspage/PostOfferPage.dart';
+import 'package:service_exchange_multiplatform/ui/pageoffers/ViewOfferWidget.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 
@@ -149,28 +147,36 @@ class _OfferItem extends State<OfferItem> {
   Column getNumberOfRequestsColumn() {
     return Column(
       children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration:
-              new BoxDecoration(shape: BoxShape.circle, color: Colors.orange),
-          child: Center(
-            child: Text(
-              getNumberOfPosts(),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+        Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100.0),
+          ),
+         color: Colors.orange,
+         child:  Container(
+            width: 50,
+            height: 50,
+            decoration:
+            new BoxDecoration(shape: BoxShape.circle),
+            child: Center(
+              child: Text(
+                getNumberOfPosts(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
         ),
+
         Container(
           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
           child: Text(
             "Active Offers",
             style: TextStyle(
-                color: Constants.THEME_LABEL_COLOR,
+                color: Constants.OFFER_STATUS_TEXT,
                 fontWeight: FontWeight.bold,
                 fontSize: 14),
           ),
@@ -182,33 +188,41 @@ class _OfferItem extends State<OfferItem> {
   Column getStatusOfRequest() {
     return Column(
       children: [
-        Container(
-          width: 90,
-          height: 40,
-          decoration: new BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: getStatusColor(statusTextController.text)),
-          child: Center(
-            child: Text(
-              statusTextController.text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+        Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+    color: getStatusColor(statusTextController.text),
+         child: Container(
+            width: 100,
+            height: 40,
+            decoration: new BoxDecoration(
+                shape: BoxShape.rectangle,
+                ),
+            child: Center(
+              child: Text(
+                statusTextController.text,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-          child: Text(
-            "status",
-            style: TextStyle(
-                color: Constants.THEME_LABEL_COLOR,
-                fontWeight: FontWeight.bold,
-                fontSize: 10),
-          ),
-        ),
+
+        // Container(
+        //   padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        //   child: Text(
+        //     "status",
+        //     style: TextStyle(
+        //         color: Constants.OFFER_STATUS_TEXT,
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 14),
+        //   ),
+        // ),
       ],
     );
   }
@@ -223,7 +237,7 @@ class _OfferItem extends State<OfferItem> {
           child: Column(
             children: [
               Container(
-                padding: new EdgeInsets.fromLTRB(10, 15, 10, 0),
+                padding: new EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -305,7 +319,7 @@ class _OfferItem extends State<OfferItem> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -361,7 +375,7 @@ class _OfferItem extends State<OfferItem> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -386,7 +400,7 @@ class _OfferItem extends State<OfferItem> {
                                 "Return: ",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Constants.THEME_DEFAULT_BLACK,
+                                    color: Constants.THEME_DEFAULT_TEXT,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -486,6 +500,25 @@ class _OfferItem extends State<OfferItem> {
                     (index) => Expanded(
                       child: GestureDetector(
                           onTap: () {
+                            if(index == 2)
+
+                            if(isReceived)
+                            {
+                              List<String> offersIdList = [];
+                              FirebaseHelper.POST_DB.child(snapshot.data[postIndex].postId).child("offers").once().then((result) {
+                                result.value.forEach((key, childSnapshot) {
+                                  print(":::::::::::::::::" + key);
+                                  offersIdList.add(key);
+                                });
+                              }).then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ViewOfferWidget(snapshot, postIndex, offersIdList)));
+                              });
+                            }
+
                             // if (index == 0 && !isCommentItem) {
                             //   Navigator.push(
                             //       context,

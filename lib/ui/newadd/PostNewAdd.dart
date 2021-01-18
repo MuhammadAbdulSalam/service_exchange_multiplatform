@@ -88,7 +88,7 @@ class _PostNewAddState extends State<PostNewAdd> {
     if (selectedIconIndex == index) {
       return Colors.pinkAccent;
     } else {
-      return Colors.blueAccent;
+      return Colors.lightBlueAccent;
     }
   }
 

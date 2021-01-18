@@ -23,6 +23,8 @@ class _MyTabbedPageState extends State<ControllerActivity>
   final GlobalKey<ScaffoldState> _mainPageKey = new GlobalKey<ScaffoldState>();
   int selectedIndex = 0;
   TabController _tabController;
+  var appbarTitle = "Home";
+
 
   @override
   void initState() {
@@ -173,6 +175,7 @@ class _MyTabbedPageState extends State<ControllerActivity>
           headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                title: Text(appbarTitle),
                 leading: IconButton(
                     icon: Icon(Icons.menu),
                     onPressed: () {
@@ -189,17 +192,12 @@ class _MyTabbedPageState extends State<ControllerActivity>
                         Constants.DEFAULT_ORANGE,
                         Constants.DEFAULT_BLUE,
                       ])),
-                  child: Container(
-                      // child: FlexibleSpaceBar(
-                      //   centerTitle: true,
-                      //   background: Image.network(
-                      //     "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // )
-                      ),
+                //   child: Container(
+                //      child: Text("SOME TITLE")
+                //       ),
                 ),
               ),
+
             ];
           },
           body: TabBarView(
@@ -219,23 +217,23 @@ class _MyTabbedPageState extends State<ControllerActivity>
             FlipBarItem(
                 icon: Icon(Icons.home),
                 text: Text("Home"),
-                frontColor: Colors.blueAccent,
-                backColor: Colors.blue),
+                frontColor: Colors.blue,
+                backColor: Colors.blueAccent),
             FlipBarItem(
                 icon: Icon(Icons.list),
                 text: Text("Posts"),
-                frontColor: Colors.orange,
-                backColor: Colors.orangeAccent),
+                frontColor: Colors.orangeAccent,
+                backColor: Colors.orange),
             FlipBarItem(
                 icon: Icon(Icons.book_outlined),
                 text: Text("Offers"),
-                frontColor: Colors.purple,
-                backColor: Colors.purpleAccent),
+                frontColor: Colors.purpleAccent,
+                backColor: Colors.purple),
             FlipBarItem(
                 icon: Icon(Icons.post_add),
                 text: Text("Add"),
-                frontColor: Colors.pink,
-                backColor: Colors.pinkAccent),
+                frontColor: Colors.pinkAccent,
+                backColor: Colors.pink),
           ],
           onIndexChanged: (newIndex) {
             onTabTapped(newIndex);
@@ -249,6 +247,18 @@ class _MyTabbedPageState extends State<ControllerActivity>
     setState(() {
       selectedIndex = index;
       _tabController.animateTo(selectedIndex);
+      switch(index)
+      {
+        case 0: appbarTitle = "Home";
+        break;
+        case 1: appbarTitle = "Posts";
+        break;
+        case 2: appbarTitle = "Offers";
+        break;
+        case 3: appbarTitle = "New Add";
+        break;
+
+      }
     });
   }
 }

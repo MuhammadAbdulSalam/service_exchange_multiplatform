@@ -26,7 +26,7 @@ class _PostsHomePage extends State<PostsHomePage> {
     if (selectedIconIndex == index && index != 2) {
       return Colors.pinkAccent;
     } else {
-      return Colors.blueAccent;
+      return Colors.lightBlueAccent;
     }
   }
 

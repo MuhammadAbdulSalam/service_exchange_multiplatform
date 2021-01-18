@@ -276,7 +276,7 @@ class _ProfileInfoPage extends State<ProfileInfoPage> {
           Container(
             padding: EdgeInsets.fromLTRB(0, 3, 0, 10),
             child: Text(
-              value,
+              value.isEmpty ? "Template Not Set" : value,
               style:
                   TextStyle(color: Constants.THEME_DEFAULT_TEXT, fontWeight: FontWeight.normal),
             ),

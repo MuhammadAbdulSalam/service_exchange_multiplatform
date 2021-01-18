@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:service_exchange_multiplatform/models/CommentsModel.dart';
+import 'package:service_exchange_multiplatform/models/OffersModel.dart';
 import 'package:service_exchange_multiplatform/models/PostsModel.dart';
 import 'package:service_exchange_multiplatform/models/UserDataModel.dart';
 import 'package:service_exchange_multiplatform/utils/Constants.dart';
@@ -41,8 +42,8 @@ class FirebaseCallHelper {
           .onChildAdded
           .listen((event) {
         if (event.snapshot.value['offers'] != null) {
-
           PostsModel postsModel = FirebaseHelper.getPostModel(event);
+          postsModel.offerKey = event.snapshot.key.toString();
           postsModel.numberOfOffers = event.snapshot.value['offers'].length;
           postList.add(postsModel);
         }
@@ -85,6 +86,22 @@ class FirebaseCallHelper {
 
     return userList;
   }
+
+  Future<List<OffersModel>> getOffersList(List<String> offerIDs) async{
+    List<OffersModel> offerList= [];
+
+    for(String s in offerIDs)
+      {
+        await FirebaseHelper.OFFER_DB.child(s).once().then((result) async {
+          OffersModel offersModel = new OffersModel();
+          offersModel.setModelData(result);
+          offersModel.offerId = s;
+          offerList.add(offersModel);
+        });
+      }
+    return offerList;
+  }
+
 
   Query getCommentsQuery(String postId) {
     return FirebaseDatabase.instance

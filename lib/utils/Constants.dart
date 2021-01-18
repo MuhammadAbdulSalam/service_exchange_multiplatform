@@ -41,8 +41,11 @@ class Constants {
   static Color THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.orangeAccent;
   static Color THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
   static Color THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
-  static Color POST_ITEM_GRADIENT1 = Color(0x80FFA500);
-  static Color POST_ITEM_GRADIENT2 = Color(0x806dc1c3);
+  static Color POST_ITEM_GRADIENT1 = Colors.white;
+  static Color POST_ITEM_GRADIENT2 = Colors.white;
+  static Color POST_ITEM_GRADIENT3 = Colors.white;
+  static Color POST_ITEM_GRADIENT4 = Colors.white;
+  static Color OFFER_STATUS_TEXT = Colors.black54;
 
   static void homeThemeLight() {
     THEME_DEFAULT_BACKGROUND = THEME_DEFAULT_WHITE;
@@ -60,8 +63,11 @@ class Constants {
     THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.orangeAccent;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = DEFAULT_BLUE;
     THEME_OFFER_TOOLBAR_COLOR = THEME_DEFAULT_BLACK;
-    POST_ITEM_GRADIENT1 = Color(0x80FFA500);
-    POST_ITEM_GRADIENT2 = Color(0x806dc1c3);
+    POST_ITEM_GRADIENT1 = Colors.white;
+    POST_ITEM_GRADIENT2 = Colors.white;
+    POST_ITEM_GRADIENT3 = Colors.orangeAccent;
+    POST_ITEM_GRADIENT4 = DEFAULT_BLUE;
+    OFFER_STATUS_TEXT = Colors.black54;
   }
 
   static void homeThemeDark() {
@@ -80,8 +86,11 @@ class Constants {
     THEME_PROFILE_CONTAINERS_GRADIENT1 = Colors.black54;
     THEME_PROFILE_CONTAINERS_GRADIENT2 = Colors.black54;
     THEME_OFFER_TOOLBAR_COLOR = Colors.black54;
-    POST_ITEM_GRADIENT1 = Colors.orangeAccent;
-    POST_ITEM_GRADIENT2 = DEFAULT_BLUE;
+    POST_ITEM_GRADIENT1 = Colors.transparent;
+    POST_ITEM_GRADIENT2 = Colors.transparent;
+    POST_ITEM_GRADIENT3 = Colors.orangeAccent;
+    POST_ITEM_GRADIENT4 = DEFAULT_BLUE;
+    OFFER_STATUS_TEXT = THEME_DEFAULT_WHITE;
   }
 
   static Color getContainerColor() {

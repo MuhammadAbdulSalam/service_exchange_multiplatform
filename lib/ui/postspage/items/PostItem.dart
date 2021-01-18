@@ -208,15 +208,15 @@ class PostItem extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                 child: Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: <Color>[
-                        Constants.POST_ITEM_GRADIENT1,
-                        Constants.POST_ITEM_GRADIENT2,
+                            Constants.POST_ITEM_GRADIENT1,
+                            Constants.POST_ITEM_GRADIENT2,
                       ])),
                   child: Container(
                       child: Container(
@@ -264,14 +264,14 @@ class PostItem extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: <Color>[
-                        Constants.POST_ITEM_GRADIENT2,
+                            Constants.POST_ITEM_GRADIENT2,
                         Constants.POST_ITEM_GRADIENT1,
                       ])),
                   child: Container(
@@ -289,7 +289,7 @@ class PostItem extends StatelessWidget {
                                 "Return: ",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Constants.THEME_DEFAULT_BLACK,
+                                    color: Constants.THEME_DEFAULT_TEXT,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
