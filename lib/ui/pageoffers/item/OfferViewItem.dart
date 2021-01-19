@@ -45,24 +45,24 @@ class _OfferViewItem extends State<OfferViewItem> {
     Color tagColor(String value) {
     if (value == "yes") {
       if (Constants.IS_THEME_DARK) {
-        return Colors.white;
+        return Colors.green[200];
       }
-      return Colors.lightGreen;
+      return Colors.green[200];
     } else {
-      return Colors.redAccent;
+      return Colors.grey;
     }
   }
 
   Color getButtonIconColor(int index) {
     switch (index) {
       case 0 :
-        return Colors.blue;
+        return Colors.blue[200];
         break;
       case 1 :
-        return Colors.green;
+        return Colors.green[200];
         break;
       case 2 :
-        return Colors.redAccent;
+        return Colors.pink[200];
         break;
     }
   }
@@ -92,8 +92,8 @@ class _OfferViewItem extends State<OfferViewItem> {
   List<IconData> getIconList() {
     return [
       Icons.chat_rounded,
-      Icons.thumb_up,
-      Icons.cancel
+      Icons.thumb_up_alt_outlined,
+      Icons.cancel_outlined
     ];
   }
 

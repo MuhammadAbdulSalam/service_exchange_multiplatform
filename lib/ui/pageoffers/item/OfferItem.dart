@@ -80,18 +80,18 @@ class _OfferItem extends State<OfferItem> {
       }
       return Colors.black26;
     } else {
-      return Colors.blue;
+      return Colors.blue[200];
     }
   }
 
   Color tagColor(String value) {
     if (value == "yes") {
       if (Constants.IS_THEME_DARK) {
-        return Colors.white;
+        return Colors.green[200];
       }
-      return Colors.lightGreen;
+      return Colors.green[200];
     } else {
-      return Colors.redAccent;
+      return Colors.grey;
     }
   }
 
@@ -128,7 +128,7 @@ class _OfferItem extends State<OfferItem> {
   Color getStatusColor(String text) {
     switch (text) {
       case "Pending":
-        return Colors.orangeAccent;
+        return Colors.orange[300];
         break;
       case "Counter":
         return Colors.purpleAccent;
@@ -140,7 +140,7 @@ class _OfferItem extends State<OfferItem> {
         return Colors.redAccent;
         break;
       default:
-        return Colors.orangeAccent;
+        return Colors.orange[200];
     }
   }
 
@@ -152,7 +152,7 @@ class _OfferItem extends State<OfferItem> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100.0),
           ),
-         color: Colors.orange,
+         color: Colors.orange[200],
          child:  Container(
             width: 50,
             height: 50,
@@ -163,7 +163,8 @@ class _OfferItem extends State<OfferItem> {
                 getNumberOfPosts(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -178,7 +179,7 @@ class _OfferItem extends State<OfferItem> {
             style: TextStyle(
                 color: Constants.OFFER_STATUS_TEXT,
                 fontWeight: FontWeight.bold,
-                fontSize: 14),
+                fontSize: 12),
           ),
         ),
       ],
@@ -196,7 +197,7 @@ class _OfferItem extends State<OfferItem> {
     color: getStatusColor(statusTextController.text),
          child: Container(
             width: 100,
-            height: 40,
+            height: 34,
             decoration: new BoxDecoration(
                 shape: BoxShape.rectangle,
                 ),

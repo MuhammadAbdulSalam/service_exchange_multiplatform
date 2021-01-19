@@ -76,18 +76,18 @@ class PostItem extends StatelessWidget {
       }
       return Colors.black26;
     } else {
-      return Colors.blue;
+      return Colors.blue[200];
     }
   }
 
   Color tagColor(String value) {
     if (value == "yes") {
       if (Constants.IS_THEME_DARK) {
-        return Colors.white;
+        return Colors.green[200];
       }
-      return Colors.lightGreen;
+      return Colors.green[200];
     } else {
-      return Colors.redAccent;
+      return Colors.grey;
     }
   }
 

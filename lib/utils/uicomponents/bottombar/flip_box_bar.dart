@@ -73,9 +73,9 @@ class _FlipBoxBarState extends State<FlipBoxBar> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     _changeValue();
     return Container(
-      color: Constants.THEME_DEFAULT_BACKGROUND,
       height: findHeight(),
       child: Row(
+
         children: widget.items.map((item) {
           int index = widget.items.indexOf(item);
           // Create the boxes in the NavBar.

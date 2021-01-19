@@ -37,7 +37,10 @@ class FlipBarElement extends StatelessWidget {
       bottomChild: Container(
         width: double.infinity,
         height: double.infinity,
-        color: backColor,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.transparent),
+            color: backColor,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

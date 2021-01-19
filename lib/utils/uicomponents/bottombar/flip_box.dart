@@ -60,6 +60,8 @@ class _FlipBoxState extends State<FlipBox> with SingleTickerProviderStateMixin {
     return Container(
       height: widget.height,
       width: double.infinity,
+      decoration: BoxDecoration(
+      ),
       child: Stack(
         children: <Widget>[
           Transform(
