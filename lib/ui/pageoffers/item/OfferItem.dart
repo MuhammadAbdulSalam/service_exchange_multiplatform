@@ -43,12 +43,13 @@ class _OfferItem extends State<OfferItem> {
         Icons.comment_outlined,
         Icons.close,
         Icons.remove_red_eye_outlined,
-
       ];
     }
   }
 
   String buttonText(int index) {
+
+
     switch (index) {
       case 0:
         return " Comment";
@@ -140,7 +141,7 @@ class _OfferItem extends State<OfferItem> {
         return Colors.redAccent;
         break;
       default:
-        return Colors.orange[200];
+        return Colors.orange[400];
     }
   }
 
@@ -152,7 +153,7 @@ class _OfferItem extends State<OfferItem> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100.0),
           ),
-         color: Colors.orange[200],
+         color: Colors.orange[400],
          child:  Container(
             width: 50,
             height: 50,
@@ -398,7 +399,7 @@ class _OfferItem extends State<OfferItem> {
                             Container(
                               padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                               child: Text(
-                                "Return: ",
+                                 "Return: ",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Constants.THEME_DEFAULT_TEXT,
@@ -508,7 +509,6 @@ class _OfferItem extends State<OfferItem> {
                               List<String> offersIdList = [];
                               FirebaseHelper.POST_DB.child(snapshot.data[postIndex].postId).child("offers").once().then((result) {
                                 result.value.forEach((key, childSnapshot) {
-                                  print(":::::::::::::::::" + key);
                                   offersIdList.add(key);
                                 });
                               }).then((value) {
@@ -519,25 +519,6 @@ class _OfferItem extends State<OfferItem> {
                                             ViewOfferWidget(snapshot, postIndex, offersIdList)));
                               });
                             }
-
-                            // if (index == 0 && !isCommentItem) {
-                            //   Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (BuildContext context) =>
-                            //               PostComments(snapshot, postIndex)));
-                            // } else if (index == 1 &&
-                            //     !isMakeOfferItem &&
-                            //     FirebaseAuth.instance.currentUser.uid
-                            //             .toString() !=
-                            //         snapshot.data[postIndex].userId
-                            //             .toString()) {
-                            //   Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (BuildContext context) =>
-                            //               PostOffersPage(snapshot, postIndex)));
-                            // }
                           },
                           child: Container(
                             child: Row(

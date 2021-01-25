@@ -5,44 +5,50 @@ import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 import 'package:service_exchange_multiplatform/utils/FirebaseHelper.dart';
 
 class OfferViewItem extends StatefulWidget {
-
   AsyncSnapshot snapshot;
   int itemIndex;
 
-  OfferViewItem(this.snapshot, this.itemIndex);
+  OfferViewItem(
+    this.snapshot,
+    this.itemIndex,
+  );
 
   @override
   _OfferViewItem createState() => _OfferViewItem(snapshot, itemIndex);
 }
 
 class _OfferViewItem extends State<OfferViewItem> {
-
   AsyncSnapshot snapshot;
   int itemIndex;
+
   _OfferViewItem(this.snapshot, this.itemIndex);
+
   String userName = "";
   String dpUrl = "";
   String profession = "";
-  
-  void getUserData(){
-     FirebaseHelper.USER_DB.child(snapshot.data[itemIndex].offerdID).once().then((value) async {
-       userName = value.value["name"].toString();
-       dpUrl = value.value["dpUrl"].toString();
-       profession = value.value["jobTitle"].toString();
-       setState(() {
-       });
-     });
+  String status = "";
 
+  void getUserData() {
+    FirebaseHelper.USER_DB
+        .child(snapshot.data[itemIndex].offerdID)
+        .once()
+        .then((value) async {
+      userName = value.value["name"].toString();
+      dpUrl = value.value["dpUrl"].toString();
+      profession = value.value["jobTitle"].toString();
+
+      setState(() {});
+    });
   }
-
 
   @override
   void initState() {
     super.initState();
     getUserData();
+    status = snapshot.data[itemIndex].status;
   }
 
-    Color tagColor(String value) {
+  Color tagColor(String value) {
     if (value == "yes") {
       if (Constants.IS_THEME_DARK) {
         return Colors.green[200];
@@ -55,14 +61,22 @@ class _OfferViewItem extends State<OfferViewItem> {
 
   Color getButtonIconColor(int index) {
     switch (index) {
-      case 0 :
+      case 0:
         return Colors.blue[200];
         break;
-      case 1 :
-        return Colors.green[200];
+      case 1:
+        if (status == "Accepted") {
+          return Colors.grey[500];
+        } else {
+          return Colors.green[300];
+        }
         break;
-      case 2 :
-        return Colors.pink[200];
+      case 2:
+        if (status == "Rejected") {
+          return Colors.grey[500];
+        } else {
+          return Colors.pink[300];
+        }
         break;
     }
   }
@@ -81,12 +95,16 @@ class _OfferViewItem extends State<OfferViewItem> {
         return " Message";
         break;
       case 1:
-        return snapshot.data[index].status == "pending"? " Accept"  : "Waiting";
+        return status == "pending" || status == "Rejected"
+            ? " Accept"
+            : " Waiting";
         break;
       case 2:
-        return " Decline";
+        return status == "Rejected" ? " Declined" : " Decline";
         break;
     }
+
+    return "";
   }
 
   List<IconData> getIconList() {
@@ -97,14 +115,17 @@ class _OfferViewItem extends State<OfferViewItem> {
     ];
   }
 
+  @override
+  void setState(fn) {
+    super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {
-   // getUserData();
+    // getUserData();
     return Container(
       color: Constants.THEME_CARD_COLOR,
       padding: new EdgeInsets.fromLTRB(10, 0, 10, 0),
-
       child: Column(
         children: [
           Container(
@@ -126,13 +147,8 @@ class _OfferViewItem extends State<OfferViewItem> {
                                     shape: BoxShape.circle,
                                     image: new DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: new NetworkImage(getUsrDpUrl()
-
-                                        )
-                                    )
-                                )
-                            ),
-
+                                        image:
+                                            new NetworkImage(getUsrDpUrl())))),
                             Container(
                               width: 10,
                               height: 10,
@@ -161,16 +177,16 @@ class _OfferViewItem extends State<OfferViewItem> {
                               textAlign: TextAlign.left,
                             ),
                             Text(
-                            profession,
+                              profession,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Constants.THEME_LABEL_COLOR),
+                              style:
+                                  TextStyle(color: Constants.THEME_LABEL_COLOR),
                             ),
                             Text(
                               "x Miles",
                               textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Constants.THEME_LABEL_COLOR),
+                              style:
+                                  TextStyle(color: Constants.THEME_LABEL_COLOR),
                             ),
                           ],
                         )),
@@ -190,7 +206,6 @@ class _OfferViewItem extends State<OfferViewItem> {
               ],
             ),
           ),
-
           Container(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Container(
@@ -199,58 +214,53 @@ class _OfferViewItem extends State<OfferViewItem> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
-                        Constants.POST_ITEM_GRADIENT1,
-                        Constants.POST_ITEM_GRADIENT2,
-                      ])),
+                    Constants.POST_ITEM_GRADIENT1,
+                    Constants.POST_ITEM_GRADIENT2,
+                  ])),
               child: Container(
                   child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                              child: Text(
-                                "Return Service: ",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Constants.THEME_DEFAULT_TEXT,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: Text(
-                                snapshot.data[itemIndex].offerTitle,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Constants.THEME_DEFAULT_TEXT,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
+                        Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                          child: Text(
+                            "Return Service: ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Constants.THEME_DEFAULT_TEXT,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Text(
-                            snapshot.data[itemIndex].offerDescription,
+                            snapshot.data[itemIndex].offerTitle,
                             textAlign: TextAlign.left,
-                            style:
-                            TextStyle(color: Constants.THEME_DEFAULT_TEXT),
+                            style: TextStyle(
+                                color: Constants.THEME_DEFAULT_TEXT,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                  )),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+                      child: Text(
+                        snapshot.data[itemIndex].offerDescription,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Constants.THEME_DEFAULT_TEXT),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
             ),
           ),
-
           Container(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: Row(
@@ -291,7 +301,6 @@ class _OfferViewItem extends State<OfferViewItem> {
               ],
             ),
           ),
-
           Container(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
             decoration: BoxDecoration(
@@ -303,75 +312,51 @@ class _OfferViewItem extends State<OfferViewItem> {
             child: Row(
               children: List.generate(
                 getIconList().length,
-                    (index) =>
-                    Expanded(
-                      child: GestureDetector(
-                          // onTap: () {
-                          //   if (index == 2)
-                          //
-                          //   // if(isReceived)
-                          //   // {
-                          //   //   List<String> offersIdList = [];
-                          //   //   FirebaseHelper.POST_DB.child(snapshot.data[postIndex].postId).child("offers").once().then((result) {
-                          //   //     result.value.forEach((key, childSnapshot) {
-                          //   //       print(":::::::::::::::::" + key);
-                          //   //       offersIdList.add(key);
-                          //   //     });
-                          //   //   }).then((value) {
-                          //   //     Navigator.push(
-                          //   //         context,
-                          //   //         MaterialPageRoute(
-                          //   //             builder: (BuildContext context) =>
-                          //   //                 ViewOfferWidget(snapshot, postIndex, offersIdList)));
-                          //   //   });
-                          //   // }
-                          //
-                          //   // if (index == 0 && !isCommentItem) {
-                          //   //   Navigator.push(
-                          //   //       context,
-                          //   //       MaterialPageRoute(
-                          //   //           builder: (BuildContext context) =>
-                          //   //               PostComments(snapshot, postIndex)));
-                          //   // } else if (index == 1 &&
-                          //   //     !isMakeOfferItem &&
-                          //   //     FirebaseAuth.instance.currentUser.uid
-                          //   //             .toString() !=
-                          //   //         snapshot.data[postIndex].userId
-                          //   //             .toString()) {
-                          //   //   Navigator.push(
-                          //   //       context,
-                          //   //       MaterialPageRoute(
-                          //   //           builder: (BuildContext context) =>
-                          //   //               PostOffersPage(snapshot, postIndex)));
-                          //   // }
-                          // },
-                          child: Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  getIconList()[index],
-                                  color: getButtonIconColor(index),
-                                ),
-                                Text(
-                                  buttonText(index),
-                                  style: TextStyle(
-                                      color: Constants.THEME_LABEL_COLOR,
-                                      fontSize: 12),
-                                ),
-                              ],
+                (index) => Expanded(
+                  child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (index == 1) {
+                            status = "Accepted";
+                            FirebaseHelper.OFFER_DB
+                                .child(snapshot.data[itemIndex].offerId)
+                                .child("status")
+                                .set("Accepted");
+                          } else if (index == 2) {
+                            status = "Rejected";
+
+                            FirebaseHelper.OFFER_DB
+                                .child(snapshot.data[itemIndex].offerId)
+                                .child("status")
+                                .set("Rejected");
+                          }
+                        });
+
+                      },
+                      child: Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              getIconList()[index],
+                              color: getButtonIconColor(index),
                             ),
-                          )),
-                    ),
+                            Text(
+                              buttonText(index),
+                              style: TextStyle(
+                                  color: Constants.THEME_LABEL_COLOR,
+                                  fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
               ),
             ),
           )
         ],
       ),
-
     );
   }
-
-
 }

@@ -217,23 +217,23 @@ class _MyTabbedPageState extends State<ControllerActivity>
             FlipBarItem(
                 icon: Icon(Icons.home),
                 text: Text("Home"),
-                frontColor: Colors.blue[200],
+                frontColor: Colors.blue[300],
                 backColor: Colors.blue[400]),
             FlipBarItem(
                 icon: Icon(Icons.list),
                 text: Text("Posts"),
-                frontColor: Colors.orange[200],
-                backColor: Colors.orange[300]),
+                frontColor: Colors.orange[300],
+                backColor: Colors.orange[400]),
             FlipBarItem(
                 icon: Icon(Icons.book_outlined),
                 text: Text("Offers"),
-                frontColor: Colors.purple[200],
-                backColor: Colors.purple[300]),
+                frontColor: Colors.purple[300],
+                backColor: Colors.purple[400]),
             FlipBarItem(
                 icon: Icon(Icons.post_add),
                 text: Text("Add"),
-                frontColor: Colors.pink[200],
-                backColor: Colors.pink[300]),
+                frontColor: Colors.pink[300],
+                backColor: Colors.pink[400]),
           ],
           onIndexChanged: (newIndex) {
             onTabTapped(newIndex);
